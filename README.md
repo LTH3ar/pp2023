@@ -9,6 +9,6 @@ Students are expected to:
 Student Info
 =========================
 
-* Student Name: Le Tuan Huy 
+* Student Name: Lê Tuấn Huy
 * Student ID: BI12-195
 
