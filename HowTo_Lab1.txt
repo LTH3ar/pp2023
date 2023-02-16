@@ -1,0 +1,12 @@
+This program have 2 list student & course
+The mark of student is save to student list in this format:
+StudentID:id, StudentName:name, CourseID:mark
+Due to limited time, There are a lot of bugs in this program
+
+start program
+1. Add student (must be done or this program will not work reason above)
+2. Add course (must be done or this program will not work reason above)
+3. Add mark (must be done or this program will not work)(must fill in at least 1 student & 1 course)
+4. Display student list
+
+this program will loop until user choose 5 to exit
