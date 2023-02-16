@@ -78,10 +78,10 @@ if __name__ == "__main__":
         elif choice == 3:
             input_mark(course)
         elif choice == 4:
-            table_out(student)
-            student_info_lst(student)
             course_info_lst(course)
-            print(f"\n\n{student}")
+            student_info_lst(student)
+            table_out(student)
+            #print(f"\n\n{student}")
         elif choice == 5:
             sw = False
         else:
