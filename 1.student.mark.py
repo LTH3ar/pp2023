@@ -29,10 +29,12 @@ def input_course():
 def input_mark():
     print("Enter mark details:")
     course_id = input("Course ID: ")
-    student_id = input("Student ID: ")
-    mark = float(input("Mark: "))
-    marks[course_id][student_id] = mark
-    print(f"Mark added for student ID {student_id} in course ID {course_id}.")
+    no_student = int(input("Number of students: "))
+    for i in range(0,no_student):
+        student_id = input("Student ID: ")
+        mark = float(input("Mark: "))
+        marks[course_id][student_id] = mark
+        print(f"Mark added for student ID {student_id} in course ID {course_id}.")
 
 
 #output report
@@ -40,13 +42,13 @@ def output_report(): #this function is not totally mine because I'm bad at handl
     print("\nChoose a course:")
     for course in courses:
         print(f"{course['course_id']}. {course['course_name']}")
-    course_id = str(input("Option: "))
+    course_id = str(input("Course ID: "))
     print(f"\nReport for course :")
 
     #show course info
     for course in courses:
         if course_id == course["course_id"]:
-            print(f"{course['course_id']}. {course['course_name']}")
+            print(f"ID: {course['course_id']}: {course['course_name']}")
 
     print("{:<10} {:<20} {:<15} {:<10}".format("ID", "Name", "Date of Birth", "Mark"))
     for student in students:
@@ -68,7 +70,9 @@ if __name__ == "__main__":
             for i in range(0,n):
                 input_student()
         elif option == 2:
-            input_course()
+            n = int(input("Number of courses: "))
+            for i in range(0,n):
+                input_course()
         elif option == 3:
             input_mark()
         elif option == 4:
