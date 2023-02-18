@@ -28,7 +28,7 @@ def input_course():
 #input mark
 def input_mark():
     print("Enter mark details:")
-    course_id = input("Course ID: ")
+    course_id = str(input("Course ID: "))
     no_student = int(input("Number of students: "))
     for i in range(0,no_student):
         student_id = input("Student ID: ")
