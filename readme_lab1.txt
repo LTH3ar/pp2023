@@ -13,3 +13,7 @@ students & courses in the beginning of the program which in the improved version
 
 update: 17/02/2023
 Based on the improved version, update the original program so that it follow the steps required in lab1
+
+update: 21/02/2023
+Remove 1.student.mark.improved.py since it cause confusion to professor sim_check_tool, 
+the original program is now the improved version with edit to follow the steps required in lab1
