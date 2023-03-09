@@ -1,7 +1,6 @@
 import math
 import numpy as np
 import curses
-import json
 
 class Student:
     def __init__(self, student_id, student_name, dob, gpa):
@@ -143,6 +142,23 @@ class StudentManagement:
                 student.gpa = "N/A"
         self.stdscr.addstr("GPA calculated.")
 
+    def gpa_ranking(self): #numpy used
+        self.stdscr.clear()
+        line_count = int(0)
+        self.stdscr.addstr(line_count, 0, "GPA ranking:")
+        line_count += 1
+        gpa_list = []
+        for student in self.students:
+            gpa_list.append(student.gpa)
+        gpa_list = np.array(gpa_list)
+        gpa_list = np.sort(gpa_list)
+        gpa_list = np.flip(gpa_list)
+        for gpa in gpa_list:
+            for student in self.students:
+                if student.gpa == gpa:
+                    self.stdscr.addstr(line_count, 0, f"ID: {student.id}, Name: {student.name}, GPA: {student.gpa}")
+                    line_count += 1
+
     def display_student(self):
         self.stdscr.clear()
         line_count = int(0)
@@ -184,7 +200,7 @@ class StudentManagement:
         line_count += 1
         self.stdscr.addstr(line_count, 0, "3. Input mark")
         line_count += 1
-        self.stdscr.addstr(line_count, 0, "4. Calculate GPA")
+        self.stdscr.addstr(line_count, 0, "4. Calculate GPA & ranking")
         line_count += 1
         self.stdscr.addstr(line_count, 0, "5. Display student")
         line_count += 1
@@ -192,9 +208,7 @@ class StudentManagement:
         line_count += 1
         self.stdscr.addstr(line_count, 0, "7. Display mark")
         line_count += 1
-        self.stdscr.addstr(line_count, 0, "8. Exit(persist data)")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "9. Exit(discard data)")
+        self.stdscr.addstr(line_count, 0, "8. Exit(discard data)")
         line_count += 1
         self.stdscr.addstr(line_count, 0, "Enter your choice: ")
         line_count += 1
@@ -214,6 +228,7 @@ class StudentManagement:
             self.input_mark()
         elif choice == 4:
             self.calculate_gpa()
+            self.gpa_ranking()
         elif choice == 5:
             self.display_student()
         elif choice == 6:
