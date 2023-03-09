@@ -1,12 +1,14 @@
 import math
 import numpy as np
+import curses
+import json
+
 class Student:
     def __init__(self, student_id, student_name, dob, gpa):
         self.id = student_id
         self.name = student_name
         self.dob = dob
         self.gpa = gpa
-
 
 class Course:
     def __init__(self, course_id, course_name, course_credit):
@@ -18,130 +20,221 @@ class Course:
     def input_mark(self, student_id, mark):
         self.marks[student_id] = mark
 
-
 class StudentManagement:
     def __init__(self):
         self.students = []
         self.courses = []
         self.in_no_student = int(0)
+        self.stdscr = curses.initscr()
 
     def input_student(self):
-        print("\nEnter student details:")
-        student_id = str(input("Student ID: "))
-        student_name = str(input("Student name: "))
-        dob = str(input("Date of birth (DD-MM-YYYY): "))
+        self.stdscr.clear()
+        line_count = 0
+        self.stdscr.addstr(line_count, 0, "Enter student details: ")
+        line_count += 1
+
+        lbl_student_id = str("Student ID: ")
+        self.stdscr.addstr(line_count, 0, lbl_student_id)
+        student_id = str(self.stdscr.getstr(line_count, len(lbl_student_id)+1, 20))
+        line_count += 1
+
+        lbl_student_name = str("Student name: ")
+        self.stdscr.addstr(line_count, 0, lbl_student_name)
+        student_name = str(self.stdscr.getstr(line_count, len(lbl_student_name)+1, 120))
+        line_count += 1
+
+        lbl_dob = str("Date of birth (DD-MM-YYYY): ")
+        self.stdscr.addstr(line_count, 0, lbl_dob)
+        dob = str(self.stdscr.getstr(line_count, len(lbl_dob)+1, 10))
+        line_count += 1
+
         gpa = str('N/A')
         student = Student(student_id, student_name, dob, gpa)
         self.students.append(student)
-        print(f"Student {student_name} added.")
+        self.stdscr.addstr(line_count, 0, f"Student {student_name} added.")
 
     def input_course(self):
-        print("Enter course details:")
-        course_id = str(input("Course ID: "))
-        course_name = str(input("Course name: "))
-        course_credit = int(input("Course credit: "))
+        self.stdscr.clear()
+        line_count = 0
+        self.stdscr.addstr(line_count, 0, "Enter course details:")
+        line_count += 1
+
+        lbl_course_id = str("Course ID: ")
+        self.stdscr.addstr(line_count, 0, lbl_course_id)
+        course_id = str(self.stdscr.getstr(line_count, len(lbl_course_id)+1, 20))
+        line_count += 1
+
+        lbl_course_name = str("Course name: ")
+        self.stdscr.addstr(line_count, 0, lbl_course_name)
+        course_name = str(self.stdscr.getstr(line_count, len(lbl_course_name)+1, 120))
+        line_count += 1
+
+        lbl_course_credit = str("Course credit: ")
+        self.stdscr.addstr(line_count, 0, lbl_course_credit)
+        course_credit = int(self.stdscr.getstr(line_count, len(lbl_course_credit)+1, 2))
+        line_count += 1
+
         course = Course(course_id, course_name, course_credit)
         self.courses.append(course)
         for student in self.students:
             course.input_mark(student.id, "N/A")
-        print(f"Course {course_name} added.")
+        self.stdscr.addstr(line_count, 0, f"Course {course_name} added.")
+
 
     def input_mark(self):
-        print("Enter mark details:")
+        self.stdscr.clear()
+        line_count = int(0)
+
+        self.stdscr.addstr(line_count, 0, "Enter mark details:")
+        line_count += 1
+
         for course in self.courses:
-            print(f"{course.id}. {course.name}")
-        course_id = str(input("Course ID: "))
-        in_no_student = int(input("Number of students: "))
+            self.stdscr.addstr(line_count, 0, f"{course.id}. {course.name}")
+            line_count += 1
+
+        lbl_course_id = str("Course ID: ")
+        self.stdscr.addstr(line_count, 0, lbl_course_id)
+        course_id = str(self.stdscr.getstr(line_count, len(lbl_course_id)+1, 20))
+        line_count += 1
+
+        lbl_no_student = str("Number of students: ")
+        self.stdscr.addstr(line_count, 0, lbl_no_student)
+        in_no_student = int(self.stdscr.getstr(line_count, len(lbl_no_student)+1, 999))
+        line_count += 1
+
         if 1 <= in_no_student <= len(self.students):
             for num in range(0, in_no_student):
-                student_id = str(input("\nStudent ID: "))
-                mark = float(input("Mark: "))
+                self.stdscr.clear()
+                line_count = int(0)
+                lbl_student_id = str("Student ID: ")
+                self.stdscr.addstr(line_count, 0, lbl_student_id)
+                student_id = str(self.stdscr.getstr(line_count, len(lbl_student_id)+1, 20))
+                line_count += 1
+
+                lbl_mark = str("Mark: ")
+                self.stdscr.addstr(line_count, 0, lbl_mark)
+                mark = float(self.stdscr.getstr(line_count, len(lbl_mark)+1, 5))
+                line_count += 1
+
                 #round down to 1 decimal places
                 mark = math.floor(mark * 10) / 10
                 for course in self.courses:
-                    #if student_id not in self.students:
-                    #    print(f"Student ID {student_id} not found.")
-                    #    break
                     if course.id == course_id:
                         course.input_mark(student_id, mark)
-                        print(f"Mark added for student ID {student_id} in course ID {course_id}.")
 
+                self.stdscr.addstr(line_count, 0, f"Mark {mark} added for student {student_id} in course {course_id}.")
         else:
-            print("\nInvalid number of students.\n")
+            self.stdscr.addstr(line_count, 0, "Invalid number of students.")
 
-    def gpa_calculator(self):
+    def calculate_gpa(self):
+        self.stdscr.clear()
         for student in self.students:
-            mark_sum = int(0)
-            credit_sum = int(0)
+            total_mark = float(0)
+            total_credit = int(0)
             for course in self.courses:
                 if course.marks[student.id] != "N/A":
-                    mark = course.marks[student.id]
-                    credit = course.credit
-                    mark_sum += (mark*credit)
-                    credit_sum += credit
-            student.gpa = mark_sum / credit_sum
-            # round down to 1 decimal places
-            student.gpa = math.floor(student.gpa * 10) / 10
-            print(f"Student ID {student.id} GPA: {student.gpa}")
+                    total_mark += course.marks[student.id] * course.credit
+                    total_credit += course.credit
+            if total_credit != 0:
+                student.gpa = total_mark / total_credit
+                #round down to 2 decimal places
+                student.gpa = math.floor(student.gpa * 100) / 100
+            else:
+                student.gpa = "N/A"
+        self.stdscr.addstr("GPA calculated.")
 
-
-    def gpa_ranking(self): #use numpy to sort, print full sorted list
-        gpa_list = []
+    def display_student(self):
+        self.stdscr.clear()
+        line_count = int(0)
+        self.stdscr.addstr(line_count, 0, "Student list:")
+        line_count += 1
         for student in self.students:
-            gpa_list.append(student.gpa)
-        gpa_list = np.array(gpa_list)
-        gpa_list = np.sort(gpa_list)
-        print("\nGPA ranking:")
-        for gpa in gpa_list:
-            for student in self.students:
-                if gpa == student.gpa:
-                    print(f"{student.id}. {student.name} - {student.gpa}")
+            self.stdscr.addstr(line_count, 0, f"ID: {student.id}, Name: {student.name}, Date of birth: {student.dob}, GPA: {student.gpa}")
+            line_count += 1
 
-    def print_report(self):
-        print("Choose a course:")
+    def display_course(self):
+        self.stdscr.clear()
+        line_count = int(0)
+        self.stdscr.addstr(line_count, 0, "Course list:")
+        line_count += 1
         for course in self.courses:
-            print(f"{course.id}. {course.name}")
-        course_id = str(input("Option: "))
+            self.stdscr.addstr(line_count, 0, f"ID: {course.id}, Name: {course.name}, Credit: {course.credit}")
+            line_count += 1
+
+    def display_mark(self):
+        self.stdscr.clear()
+        line_count = int(0)
+        self.stdscr.addstr(line_count, 0, "Mark list:")
+        line_count += 1
         for course in self.courses:
-            if course.id == course_id:
-                print(f"\nID: {course.id}: {course.name}")
-                print(f"\nReport for {course.name}:")
-                print("{:<10} {:<20} {:<15} {:<10}".format("ID", "Name", "Date of Birth", "Mark"))
-                for student in self.students:
-                    mark = course.marks[student.id]
-                    print("{:<10} {:<20} {:<15} {:<10}".format(student.id, student.name, student.dob, mark))
-                return
-        print(f"Course ID {course_id} not found.")
+            self.stdscr.addstr(line_count, 0, f"Course ID: {course.id}, Course name: {course.name}")
+            line_count += 1
+            for student in self.students:
+                self.stdscr.addstr(line_count, 0, f"Student ID: {student.id}, Student name: {student.name}, Mark: {course.marks[student.id]}")
+                line_count += 1
+
+    def display_menu(self):
+        self.stdscr.clear()
+        line_count = int(0)
+        self.stdscr.addstr(line_count, 0, "Student management system:")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "1. Input student")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "2. Input course")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "3. Input mark")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "4. Calculate GPA")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "5. Display student")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "6. Display course")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "7. Display mark")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "8. Exit(persist data)")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "9. Exit(discard data)")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "Enter your choice: ")
+        line_count += 1
+
+        choice = int(self.stdscr.getstr())
+        if choice == 1:
+            self.stdscr.addstr(line_count, 0, "Number of students: ")
+            in_num_student = int(self.stdscr.getstr(10, len("Number of students: "), 999))
+            for num in range(0, in_num_student):
+                self.input_student()
+        elif choice == 2:
+            self.stdscr.addstr(line_count, 0, "Number of courses: ")
+            in_num_course = int(self.stdscr.getstr(10, len("Number of courses: "), 999))
+            for num in range(0, in_num_course):
+                self.input_course()
+        elif choice == 3:
+            self.input_mark()
+        elif choice == 4:
+            self.calculate_gpa()
+        elif choice == 5:
+            self.display_student()
+        elif choice == 6:
+            self.display_course()
+        elif choice == 7:
+            self.display_mark()
+        elif choice == 8:
+            self.stdscr.addstr("Goodbye!")
+            exit()
+        else:
+            self.stdscr.addstr("Invalid choice.")
+
+    def main(self):
+        while True:
+            self.display_menu()
+            self.stdscr.addstr("\nPress any key to continue.")
+            self.stdscr.getch()
+            self.stdscr.clear()
 
 
 if __name__ == "__main__":
-    sm = StudentManagement()
-    while True:
-        print("\nChoose an option:")
-        print("1. Add student")
-        print("2. Add course")
-        print("3. Add mark")
-        print("4. Print report")
-        print("5. GPA RANKING")
-        print("6. Exit")
-        option = int(input("Option: "))
+    student_management = StudentManagement()
+    curses.wrapper(student_management.main())
 
-        if option == 1:
-            n = int(input("Number of students: "))
-            for i in range(0, n):
-                sm.input_student()
-        elif option == 2:
-            n = int(input("Number of courses: "))
-            for i in range(0, n):
-                sm.input_course()
-        elif option == 3:
-            sm.input_mark()
-        elif option == 4:
-            sm.print_report()
-        elif option == 5:
-            sm.gpa_calculator()
-            sm.gpa_ranking()
-        elif option == 6:
-            break
-        else:
-            print("Invalid option. Please try again.")
