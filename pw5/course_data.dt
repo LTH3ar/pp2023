@@ -1,0 +1,20 @@
+[
+    {
+        "id": "b'c001'",
+        "name": "b'python'",
+        "credit": 4,
+        "marks": {
+            "b's001'": "10",
+            "b's002'": "N/A"
+        }
+    },
+    {
+        "id": "b'c002'",
+        "name": "b'java'",
+        "credit": 3,
+        "marks": {
+            "b's001'": "N/A",
+            "b's002'": "N/A"
+        }
+    }
+]
