@@ -1,9 +1,10 @@
 from domains.student import Student
 from domains.course import Course
+import curses
 import math
 class Input:
-    def __init__(self, stdscr, students, courses):
-        self.stdscr = stdscr
+    def __init__(self, students, courses):
+        self.stdscr = curses.initscr()
         self.in_no_student = int(0)
         self.students = students
         self.courses = courses
@@ -35,6 +36,13 @@ class Input:
         self.students.append(student)
         self.stdscr.addstr(line_count, 0, f"Student {student_name} added.")
 
+    def input_student_multiple(self):
+        self.stdscr.clear()
+        self.stdscr.addstr(0, 0, "Number of students: ")
+        in_num_student = int(self.stdscr.getstr(10, len("Number of students: "), 999))
+        for num in range(0, in_num_student):
+            self.input_student()
+
     def input_course(self):
         self.stdscr.clear()
         line_count = 0
@@ -62,6 +70,12 @@ class Input:
             course.input_mark(student.id, "N/A")
         self.stdscr.addstr(line_count, 0, f"Course {course_name} added.")
 
+    def input_course_multiple(self):
+        self.stdscr.clear()
+        self.stdscr.addstr(0, 0, "Number of courses: ")
+        in_num_course = int(self.stdscr.getstr(10, len("Number of courses: "), 999))
+        for num in range(0, in_num_course):
+            self.input_course()
 
     def input_mark(self):
         self.stdscr.clear()
@@ -108,3 +122,6 @@ class Input:
                                    f"Mark {mark} added for student {student_id} in course {course_id}.")
         else:
             self.stdscr.addstr(line_count, 0, "Invalid number of students.")
+
+    def __del__(self):
+        curses.endwin()

@@ -1,10 +1,11 @@
 from domains.student import Student
 from domains.course import Course
+import curses
 
 class Output:
 
-    def __init__(self, stdscr, students, courses):
-        self.stdscr = stdscr
+    def __init__(self, students, courses):
+        self.stdscr = curses.initscr()
         self.in_no_student = int(0)
         self.student = Student
         self.course = Course
@@ -41,3 +42,6 @@ class Output:
             for student in self.students:
                 self.stdscr.addstr(line_count, 0, f"Student ID: {student.id}, Student name: {student.name}, Mark: {course.marks[student.id]}")
                 line_count += 1
+
+    def __del__(self):
+        curses.endwin()

@@ -1,8 +1,5 @@
-from student_management import StudentManagement
+from menu import Menu
 import curses
-
-
 if __name__ == "__main__":
-
-    student_management = StudentManagement()
-    curses.wrapper(student_management.main())
+    menu = Menu()
+    menu.main()
