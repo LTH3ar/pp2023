@@ -3,3 +3,6 @@
 
 # ignore venv folder
 venv/
+
+# ignore pycahe folder
+__pycache__
