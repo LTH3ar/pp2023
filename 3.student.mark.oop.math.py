@@ -3,6 +3,7 @@ import numpy as np
 import curses
 
 class Student:
+    #init
     def __init__(self, student_id, student_name, dob, gpa):
         self.id = student_id
         self.name = student_name
@@ -10,22 +11,26 @@ class Student:
         self.gpa = gpa
 
 class Course:
+    #init
     def __init__(self, course_id, course_name, course_credit):
         self.id = course_id
         self.name = course_name
         self.credit = course_credit
         self.marks = {}
 
+    #input mark intergrated with course
     def input_mark(self, student_id, mark):
         self.marks[student_id] = mark
 
 class StudentManagement:
+    #init
     def __init__(self):
         self.students = []
         self.courses = []
         self.in_no_student = int(0)
         self.stdscr = curses.initscr()
 
+    #input student
     def input_student(self):
         self.stdscr.clear()
         line_count = 0
@@ -52,6 +57,7 @@ class StudentManagement:
         self.students.append(student)
         self.stdscr.addstr(line_count, 0, f"Student {student_name} added.")
 
+    #input course
     def input_course(self):
         self.stdscr.clear()
         line_count = 0
@@ -80,6 +86,7 @@ class StudentManagement:
         self.stdscr.addstr(line_count, 0, f"Course {course_name} added.")
 
 
+    #input mark
     def input_mark(self):
         self.stdscr.clear()
         line_count = int(0)
@@ -125,6 +132,7 @@ class StudentManagement:
         else:
             self.stdscr.addstr(line_count, 0, "Invalid number of students.")
 
+    #calculate gpa
     def calculate_gpa(self):
         self.stdscr.clear()
         for student in self.students:
@@ -142,6 +150,7 @@ class StudentManagement:
                 student.gpa = "N/A"
         self.stdscr.addstr("GPA calculated.")
 
+    #GPA ranking
     def gpa_ranking(self): #numpy used
         self.stdscr.clear()
         line_count = int(0)
@@ -159,6 +168,8 @@ class StudentManagement:
                     self.stdscr.addstr(line_count, 0, f"ID: {student.id}, Name: {student.name}, GPA: {student.gpa}")
                     line_count += 1
 
+    #Output
+    #display student
     def display_student(self):
         self.stdscr.clear()
         line_count = int(0)
@@ -168,6 +179,7 @@ class StudentManagement:
             self.stdscr.addstr(line_count, 0, f"ID: {student.id}, Name: {student.name}, Date of birth: {student.dob}, GPA: {student.gpa}")
             line_count += 1
 
+    #display course
     def display_course(self):
         self.stdscr.clear()
         line_count = int(0)
@@ -177,6 +189,7 @@ class StudentManagement:
             self.stdscr.addstr(line_count, 0, f"ID: {course.id}, Name: {course.name}, Credit: {course.credit}")
             line_count += 1
 
+    #display mark
     def display_mark(self):
         self.stdscr.clear()
         line_count = int(0)
@@ -189,6 +202,7 @@ class StudentManagement:
                 self.stdscr.addstr(line_count, 0, f"Student ID: {student.id}, Student name: {student.name}, Mark: {course.marks[student.id]}")
                 line_count += 1
 
+    #display menu
     def display_menu(self):
         self.stdscr.clear()
         line_count = int(0)

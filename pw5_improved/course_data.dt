@@ -1,0 +1,20 @@
+[
+    {
+        "_Course__id": "b'c001'",
+        "_Course__name": "b'python'",
+        "_Course__credit": 4,
+        "_Course__marks": {
+            "b's001'": "N/A",
+            "b's002'": "N/A"
+        }
+    },
+    {
+        "_Course__id": "b'c002'",
+        "_Course__name": "b'java'",
+        "_Course__credit": 3,
+        "_Course__marks": {
+            "b's001'": "N/A",
+            "b's002'": "N/A"
+        }
+    }
+]

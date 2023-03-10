@@ -39,7 +39,7 @@ class Input:
     def input_student_multiple(self):
         self.stdscr.clear()
         self.stdscr.addstr(0, 0, "Number of students: ")
-        in_num_student = int(self.stdscr.getstr(10, len("Number of students: "), 999))
+        in_num_student = int(self.stdscr.getstr(0, len("Number of students: "), 999))
         for num in range(0, in_num_student):
             self.input_student()
 
@@ -73,7 +73,7 @@ class Input:
     def input_course_multiple(self):
         self.stdscr.clear()
         self.stdscr.addstr(0, 0, "Number of courses: ")
-        in_num_course = int(self.stdscr.getstr(10, len("Number of courses: "), 999))
+        in_num_course = int(self.stdscr.getstr(0, len("Number of courses: "), 999))
         for num in range(0, in_num_course):
             self.input_course()
 

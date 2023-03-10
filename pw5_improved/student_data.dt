@@ -1,0 +1,14 @@
+[
+    {
+        "_Student__id": "b's001'",
+        "_Student__name": "b'huy1'",
+        "_Student__dob": "b'13-01-2003'",
+        "_Student__gpa": "N/A"
+    },
+    {
+        "_Student__id": "b's002'",
+        "_Student__name": "b'huy2'",
+        "_Student__dob": "b'13-03-2003'",
+        "_Student__gpa": "N/A"
+    }
+]

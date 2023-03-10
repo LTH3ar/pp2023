@@ -33,7 +33,12 @@ class Input:
         line_count += 1
 
         gpa = str('N/A')
-        student = Student(student_id, student_name, dob, gpa)
+        student = Student()
+        student.set_id(student_id)
+        student.set_name(student_name)
+        student.set_dob(dob)
+        student.set_gpa(gpa)
+
         self.students.append(student)
         self.stdscr.addstr(line_count, 0, f"Student {student_name} added.")
 
@@ -65,10 +70,14 @@ class Input:
         course_credit = int(self.stdscr.getstr(line_count, len(lbl_course_credit) + 1, 2))
         line_count += 1
 
-        course = Course(course_id, course_name, course_credit)
+        course = Course()
+        course.set_id(course_id)
+        course.set_name(course_name)
+        course.set_credit(course_credit)
+
         self.courses.append(course)
         for student in self.students:
-            course.input_mark(student.id, "N/A")
+            course.input_mark(student.get_id(), "N/A")
         self.stdscr.addstr(line_count, 0, f"Course {course_name} added.")
 
     def input_course_multiple(self):
@@ -86,7 +95,7 @@ class Input:
         line_count += 1
 
         for course in self.courses:
-            self.stdscr.addstr(line_count, 0, f"{course.id}. {course.name}")
+            self.stdscr.addstr(line_count, 0, f"{course.get_id()}. {course.get_name()}")
             line_count += 1
 
         lbl_course_id = str("Course ID: ")
@@ -116,7 +125,7 @@ class Input:
                 # round down to 1 decimal places
                 mark = math.floor(mark * 10) / 10
                 for course in self.courses:
-                    if course.id == course_id:
+                    if course.get_id() == course_id:
                         course.input_mark(student_id, mark)
 
                 self.stdscr.addstr(line_count, 0,
@@ -128,22 +137,33 @@ class Input:
         with open('student_data.dt', 'r') as file:
             student_data = json.load(file)
             for student in student_data:
-                student_id = student['id']
-                student_name = student['name']
-                dob = student['dob']
-                gpa = student['gpa']
-                self.students.append(Student(student_id, student_name, dob, gpa))
+                student_id = student['_Student__id']
+                student_name = student['_Student__name']
+                dob = student['_Student__dob']
+                gpa = student['_Student__gpa']
+
+                new_student = Student()
+                new_student.set_id(student_id)
+                new_student.set_name(student_name)
+                new_student.set_dob(dob)
+                new_student.set_gpa(gpa)
+
+                self.students.append(new_student)
 
     def load_data_course(self):
         with open('course_data.dt', 'r') as file:
             course_data = json.load(file)
             for course in course_data:
-                course_id = course['id']
-                course_name = course['name']
-                course_credit = course['credit']
-                new_course = Course(course_id, course_name, course_credit)
-                for student_id, mark in course['marks'].items():
-                    new_course.marks[student_id] = mark
+                course_id = course['_Course__id']
+                course_name = course['_Course__name']
+                course_credit = course['_Course__credit']
+                new_course = Course()
+                new_course.set_id(course_id)
+                new_course.set_name(course_name)
+                new_course.set_credit(course_credit)
+
+                for student_id, mark in course['_Course__marks'].items():
+                    new_course.input_mark(student_id, mark)
                 self.courses.append(new_course)
 
     def load_data(self):
