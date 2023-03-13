@@ -6,3 +6,6 @@ venv/
 
 # ignore pycahe folder
 __pycache__
+
+# ignore .idea folder
+.idea/
