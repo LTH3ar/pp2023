@@ -1,269 +1,408 @@
 import math
+import json
+import subprocess
+from subprocess import *
 import numpy as np
 import curses
 
 class Student:
     #init
     def __init__(self, student_id, student_name, dob, gpa):
-        self.id = student_id
-        self.name = student_name
-        self.dob = dob
-        self.gpa = gpa
+        self.__id = student_id
+        self.__name = student_name
+        self.__dob = dob
+        self.__gpa = gpa
+
+    #setters
+    def set_id(self, student_id):
+        self.__id = student_id
+    def set_name(self, student_name):
+        self.__name = student_name
+    def set_dob(self, dob):
+        self.__dob = dob
+    def set_gpa(self, gpa):
+        self.__gpa = gpa
+
+    #getters
+    def get_id(self):
+        return self.__id
+    def get_name(self):
+        return self.__name
+    def get_dob(self):
+        return self.__dob
+    def get_gpa(self):
+        return self.__gpa
+
 
 class Course:
     #init
-    def __init__(self, course_id, course_name, course_credit):
-        self.id = course_id
-        self.name = course_name
-        self.credit = course_credit
-        self.marks = {}
+    def __init__(self, course_id, course_name, course_credit, course_mark_mid_portion, course_mark_final_portion):
+        self.__id = course_id
+        self.__name = course_name
+        self.__credit = course_credit
+        self.__mark_mid_portion = course_mark_mid_portion
+        self.__mark_final_portion = course_mark_final_portion
 
-    #input mark intergrated with course
-    def input_mark(self, student_id, mark):
-        self.marks[student_id] = mark
+    #setters
+    def set_id(self, course_id):
+        self.__id = course_id
+    def set_name(self, course_name):
+        self.__name = course_name
+    def set_credit(self, course_credit):
+        self.__credit = course_credit
+    def set_mark_mid_portion(self, course_mark_mid_portion):
+        self.__mark_mid_portion = course_mark_mid_portion
+    def set_mark_final_portion(self, course_mark_final_portion):
+        self.__mark_final_portion = course_mark_final_portion
+
+    #getters
+    def get_id(self):
+        return self.__id
+    def get_name(self):
+        return self.__name
+    def get_credit(self):
+        return self.__credit
+    def get_mark_mid_portion(self):
+        return self.__mark_mid_portion
+    def get_mark_final_portion(self):
+        return self.__mark_final_portion
+
+
+class Mark:
+    #init
+    def __init__(self, student_id, course_id, mark_mid, mark_final):
+        self.__student_id = student_id
+        self.__course_id = course_id
+        self.__mark_mid = mark_mid
+        self.__mark_final = mark_final
+
+    #setters
+    def set_student_id(self, student_id):
+        self.__student_id = student_id
+    def set_course_id(self, course_id):
+        self.__course_id = course_id
+    def set_mark_mid(self, mark_mid):
+        self.__mark_mid = mark_mid
+    def set_mark_final(self, mark_final):
+        self.__mark_final = mark_final
+
+    #getters
+    def get_student_id(self):
+        return self.__student_id
+    def get_course_id(self):
+        return self.__course_id
+    def get_mark_mid(self):
+        return self.__mark_mid
+    def get_mark_final(self):
+        return self.__mark_final
+
+
+class IOFuncs:
+    #init
+    def __init__(self, student_list, course_list, mark_list):
+        self.__student_list = student_list
+        self.__course_list = course_list
+        self.__mark_list = mark_list
+
+    #setters
+    def set_student_list(self, student_list):
+        self.__student_list = student_list
+    def set_course_list(self, course_list):
+        self.__course_list = course_list
+    def set_mark_list(self, mark_list):
+        self.__mark_list = mark_list
+
+    #getters
+    def get_student_list(self):
+        return self.__student_list
+    def get_course_list(self):
+        return self.__course_list
+    def get_mark_list(self):
+        return self.__mark_list
+
+    #methods
+    def input_student(self):
+        student_id = str(input("Enter student id: "))
+        student_name = str(input("Enter student name: "))
+        dob = str(input("Enter date of birth: "))
+        gpa = str("N/A")
+        student = Student(student_id, student_name, dob, gpa)
+        self.__student_list.append(student)
+
+    def input_course(self):
+        course_id = str(input("Enter course id: "))
+        course_name = str(input("Enter course name: "))
+        course_credit = int(input("Enter course credit: "))
+        course_mark_mid_portion = float(input("Enter course mark mid portion: "))
+        course_mark_final_portion = float(input("Enter course mark final portion: "))
+        course = Course(course_id, course_name, course_credit, course_mark_mid_portion, course_mark_final_portion)
+        self.__course_list.append(course)
+
+    def input_mark(self):
+        student_id = str(input("Enter student id: "))
+        for i in self.__student_list:
+            if student_id == i.get_id():
+                student_id = i.get_id()
+                break
+        course_id = str(input("Enter course id: "))
+        for i in self.__course_list:
+            if course_id == i.get_id():
+                course_id = i.get_id()
+                break
+        mark_mid = float(input("Enter mark mid: "))
+        mark_final = float(input("Enter mark final: "))
+        mark = Mark(student_id, course_id, mark_mid, mark_final)
+        self.__mark_list.append(mark)
+
+    def output_students_list(self):
+        for i in self.__student_list:
+            print("\nID: " + str(i.get_id())
+                  + "\nName: " + str(i.get_name())
+                  + "\nDoB: " + str(i.get_dob())
+                  + "\nGPA: " + str(i.get_gpa())
+                  )
+
+    def output_courses_list(self):
+        for i in self.__course_list:
+            print("\nID: " + str(i.get_id())
+                  + "\nName: " + str(i.get_name())
+                  + "\nDoB: " + str(i.get_credit())
+                  + "\nMid_%: " + str(i.get_mark_mid_portion())
+                  + "\nFinal_%: " + str(i.get_mark_final_portion())
+                  )
+
+    def output_marks_list(self):
+        for i in self.__mark_list:
+            print("\nStudent ID: " + str(i.get_student_id())
+                  + "\nCourse ID: " + str(i.get_course_id())
+                  + "\nMid: " + str(i.get_mark_mid())
+                  + "\nFinal: " + str(i.get_mark_final())
+                  )
+
+    def output_student(self, student_id):
+        for i in self.__student_list:
+            if i.get_id() == student_id:
+                print("\nID: " + str(i.get_id())
+                      + "\nName: " + str(i.get_name())
+                      + "\nDoB: " + str(i.get_dob())
+                      + "\nGPA: " + str(i.get_gpa())
+                      )
+
+    def output_course(self, course_id):
+        for i in self.__course_list:
+            if i.get_id() == course_id:
+                print("\nID: " + str(i.get_id())
+                      + "\nName: " + str(i.get_name())
+                      + "\nDoB: " + str(i.get_credit())
+                      + "\nMid_%: " + str(i.get_mark_mid_portion())
+                      + "\nFinal_%: " + str(i.get_mark_final_portion())
+                      )
+
+    def output_mark(self, student_id, course_id):
+        for i in self.__mark_list:
+            if i.get_course_id() == course_id and i.get_student_id() == student_id:
+                print("\nCourse ID: " + str(i.get_course_id())
+                      + "\nStudent ID: " + str(i.get_student_id())
+                      + "\nMid: " + str(i.get_mark_mid())
+                      + "\nFinal: " + str(i.get_mark_final())
+                      )
+
+    def List2File(self, filename, lst): #write to json file
+        with open(filename, "w") as file:
+            json.dump(lst, file, default=lambda o: o.__dict__, indent=4)
+
+    def File2List(self, filename): #read from json file
+        with open(filename, 'r') as file:
+            data = json.load(file)
+        return data
+
+
+
 
 class StudentManagement:
     #init
     def __init__(self):
-        self.students = []
-        self.courses = []
-        self.in_no_student = int(0)
-        self.stdscr = curses.initscr()
+        self.student_list = []
+        self.course_list = []
+        self.mark_list = []
+        self.io_funcs = IOFuncs(self.student_list, self.course_list, self.mark_list)
 
-    #input student
-    def input_student(self):
-        self.stdscr.clear()
-        line_count = 0
-        self.stdscr.addstr(line_count, 0, "Enter student details: ")
-        line_count += 1
+    #methods
+    def load_data(self):
+        filename1 = "students_data.dt"
+        filename2 = "courses_data.dt"
+        filename3 = "marks_data.dt"
+        self.student_list.clear()
+        self.course_list.clear()
+        self.mark_list.clear()
 
-        lbl_student_id = str("Student ID: ")
-        self.stdscr.addstr(line_count, 0, lbl_student_id)
-        student_id = str(self.stdscr.getstr(line_count, len(lbl_student_id)+1, 20))
-        line_count += 1
+        data1 = self.io_funcs.File2List(filename1)
+        for i in data1:
+            student = Student(i["_Student__id"],
+                              i["_Student__name"],
+                              i["_Student__dob"],
+                              i["_Student__gpa"])
+            self.student_list.append(student)
 
-        lbl_student_name = str("Student name: ")
-        self.stdscr.addstr(line_count, 0, lbl_student_name)
-        student_name = str(self.stdscr.getstr(line_count, len(lbl_student_name)+1, 120))
-        line_count += 1
+        data2 = self.io_funcs.File2List(filename2)
+        for i in data2:
+            course = Course(i["_Course__id"],
+                            i["_Course__name"],
+                            i["_Course__credit"],
+                            i["_Course__mark_mid_portion"],
+                            i["_Course__mark_final_portion"])
+            self.course_list.append(course)
 
-        lbl_dob = str("Date of birth (DD-MM-YYYY): ")
-        self.stdscr.addstr(line_count, 0, lbl_dob)
-        dob = str(self.stdscr.getstr(line_count, len(lbl_dob)+1, 10))
-        line_count += 1
+        data3 = self.io_funcs.File2List(filename3)
+        for i in data3:
+            mark = Mark(i["_Mark__student_id"],
+                        i["_Mark__course_id"],
+                        i["_Mark__mark_mid"],
+                        i["_Mark__mark_final"])
+            self.mark_list.append(mark)
 
-        gpa = str('N/A')
-        student = Student(student_id, student_name, dob, gpa)
-        self.students.append(student)
-        self.stdscr.addstr(line_count, 0, f"Student {student_name} added.")
-
-    #input course
-    def input_course(self):
-        self.stdscr.clear()
-        line_count = 0
-        self.stdscr.addstr(line_count, 0, "Enter course details:")
-        line_count += 1
-
-        lbl_course_id = str("Course ID: ")
-        self.stdscr.addstr(line_count, 0, lbl_course_id)
-        course_id = str(self.stdscr.getstr(line_count, len(lbl_course_id)+1, 20))
-        line_count += 1
-
-        lbl_course_name = str("Course name: ")
-        self.stdscr.addstr(line_count, 0, lbl_course_name)
-        course_name = str(self.stdscr.getstr(line_count, len(lbl_course_name)+1, 120))
-        line_count += 1
-
-        lbl_course_credit = str("Course credit: ")
-        self.stdscr.addstr(line_count, 0, lbl_course_credit)
-        course_credit = int(self.stdscr.getstr(line_count, len(lbl_course_credit)+1, 2))
-        line_count += 1
-
-        course = Course(course_id, course_name, course_credit)
-        self.courses.append(course)
-        for student in self.students:
-            course.input_mark(student.id, "N/A")
-        self.stdscr.addstr(line_count, 0, f"Course {course_name} added.")
+    def export_data(self):
+        filename1 = "students_data.dt"
+        filename2 = "courses_data.dt"
+        filename3 = "marks_data.dt"
+        self.io_funcs.List2File(filename1, self.student_list)
+        self.io_funcs.List2File(filename2, self.course_list)
+        self.io_funcs.List2File(filename3, self.mark_list)
 
 
-    #input mark
-    def input_mark(self):
-        self.stdscr.clear()
-        line_count = int(0)
+    def add_student(self):
+        input_no_student = int(input("Enter number of students: "))
+        for i in range(input_no_student):
+            self.io_funcs.input_student()
 
-        self.stdscr.addstr(line_count, 0, "Enter mark details:")
-        line_count += 1
+    def add_course(self):
+        input_no_course = int(input("Enter number of courses: "))
+        for i in range(input_no_course):
+            self.io_funcs.input_course()
 
-        for course in self.courses:
-            self.stdscr.addstr(line_count, 0, f"{course.id}. {course.name}")
-            line_count += 1
+    def add_mark(self):
+        input_no_mark = int(input("Enter number of marks: "))
+        for i in range(input_no_mark):
+            self.io_funcs.input_mark()
 
-        lbl_course_id = str("Course ID: ")
-        self.stdscr.addstr(line_count, 0, lbl_course_id)
-        course_id = str(self.stdscr.getstr(line_count, len(lbl_course_id)+1, 20))
-        line_count += 1
+    def output_students_list(self):
+        self.io_funcs.output_students_list()
 
-        lbl_no_student = str("Number of students: ")
-        self.stdscr.addstr(line_count, 0, lbl_no_student)
-        in_no_student = int(self.stdscr.getstr(line_count, len(lbl_no_student)+1, 999))
-        line_count += 1
+    def output_courses_list(self):
+        self.io_funcs.output_courses_list()
 
-        if 1 <= in_no_student <= len(self.students):
-            for num in range(0, in_no_student):
-                self.stdscr.clear()
-                line_count = int(0)
-                lbl_student_id = str("Student ID: ")
-                self.stdscr.addstr(line_count, 0, lbl_student_id)
-                student_id = str(self.stdscr.getstr(line_count, len(lbl_student_id)+1, 20))
-                line_count += 1
+    def output_marks_list(self):
+        self.io_funcs.output_marks_list()
 
-                lbl_mark = str("Mark: ")
-                self.stdscr.addstr(line_count, 0, lbl_mark)
-                mark = float(self.stdscr.getstr(line_count, len(lbl_mark)+1, 5))
-                line_count += 1
+    def output_student(self):
+        input_student_id = input("Enter student id: ")
+        self.io_funcs.output_student(input_student_id)
 
-                #round down to 1 decimal places
-                mark = math.floor(mark * 10) / 10
-                for course in self.courses:
-                    if course.id == course_id:
-                        course.input_mark(student_id, mark)
+    def output_course(self):
+        input_course_id = input("Enter course id: ")
+        self.io_funcs.output_course(input_course_id)
 
-                self.stdscr.addstr(line_count, 0, f"Mark {mark} added for student {student_id} in course {course_id}.")
-        else:
-            self.stdscr.addstr(line_count, 0, "Invalid number of students.")
+    def output_mark(self):
+        input_student_id = input("Enter student id: ")
+        input_course_id = input("Enter course id: ")
+        self.io_funcs.output_mark(input_student_id, input_course_id)
 
-    #calculate gpa
-    def calculate_gpa(self):
-        self.stdscr.clear()
-        for student in self.students:
-            total_mark = float(0)
-            total_credit = int(0)
-            for course in self.courses:
-                if course.marks[student.id] != "N/A":
-                    total_mark += course.marks[student.id] * course.credit
-                    total_credit += course.credit
-            if total_credit != 0:
-                student.gpa = total_mark / total_credit
-                #round down to 2 decimal places
-                student.gpa = math.floor(student.gpa * 100) / 100
-            else:
-                student.gpa = "N/A"
-        self.stdscr.addstr("GPA calculated.")
+    def gpa_calculator(self):
+        max_point = float(20)
+        for student in self.student_list:
+            gpa_sum = 0
+            credits_sum = 0
+            for course in self.course_list:
+                for mark in self.mark_list:
+                    if course.get_id() == mark.get_course_id() and mark.get_student_id() == student.get_id():
+                        mark_mid = (mark.get_mark_mid() / max_point) * ((course.get_mark_mid_portion() / 100) * max_point)
+                        # floor mark_mid to 1 decimal places
+                        mark_mid = math.floor(mark_mid * 10) / 10
 
-    #GPA ranking
-    def gpa_ranking(self): #numpy used
-        self.stdscr.clear()
-        line_count = int(0)
-        self.stdscr.addstr(line_count, 0, "GPA ranking:")
-        line_count += 1
-        gpa_list = []
-        for student in self.students:
-            gpa_list.append(student.gpa)
-        gpa_list = np.array(gpa_list)
-        gpa_list = np.sort(gpa_list)
-        gpa_list = np.flip(gpa_list)
-        for gpa in gpa_list:
-            for student in self.students:
-                if student.gpa == gpa:
-                    self.stdscr.addstr(line_count, 0, f"ID: {student.id}, Name: {student.name}, GPA: {student.gpa}")
-                    line_count += 1
+                        mark_final = (mark.get_mark_final() / max_point) * ((course.get_mark_final_portion() / 100) * max_point)
+                        # floor mark_final to 1 decimal places
+                        mark_final = math.floor(mark_final * 10) / 10
 
-    #Output
-    #display student
-    def display_student(self):
-        self.stdscr.clear()
-        line_count = int(0)
-        self.stdscr.addstr(line_count, 0, "Student list:")
-        line_count += 1
-        for student in self.students:
-            self.stdscr.addstr(line_count, 0, f"ID: {student.id}, Name: {student.name}, Date of birth: {student.dob}, GPA: {student.gpa}")
-            line_count += 1
+                        mark_full = mark_mid + mark_final
+                        # floor gpa to 1 decimal places
+                        mark_full = math.floor(mark_full * 10) / 10
 
-    #display course
-    def display_course(self):
-        self.stdscr.clear()
-        line_count = int(0)
-        self.stdscr.addstr(line_count, 0, "Course list:")
-        line_count += 1
-        for course in self.courses:
-            self.stdscr.addstr(line_count, 0, f"ID: {course.id}, Name: {course.name}, Credit: {course.credit}")
-            line_count += 1
+                        gpa_sum += mark_full * course.get_credit()
+                        credits_sum += course.get_credit()
 
-    #display mark
-    def display_mark(self):
-        self.stdscr.clear()
-        line_count = int(0)
-        self.stdscr.addstr(line_count, 0, "Mark list:")
-        line_count += 1
-        for course in self.courses:
-            self.stdscr.addstr(line_count, 0, f"Course ID: {course.id}, Course name: {course.name}")
-            line_count += 1
-            for student in self.students:
-                self.stdscr.addstr(line_count, 0, f"Student ID: {student.id}, Student name: {student.name}, Mark: {course.marks[student.id]}")
-                line_count += 1
-
-    #display menu
-    def display_menu(self):
-        self.stdscr.clear()
-        line_count = int(0)
-        self.stdscr.addstr(line_count, 0, "Student management system:")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "1. Input student")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "2. Input course")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "3. Input mark")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "4. Calculate GPA & ranking")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "5. Display student")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "6. Display course")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "7. Display mark")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "8. Exit(discard data)")
-        line_count += 1
-        self.stdscr.addstr(line_count, 0, "Enter your choice: ")
-        line_count += 1
-
-        choice = int(self.stdscr.getstr())
-        if choice == 1:
-            self.stdscr.addstr(line_count, 0, "Number of students: ")
-            in_num_student = int(self.stdscr.getstr(10, len("Number of students: "), 999))
-            for num in range(0, in_num_student):
-                self.input_student()
-        elif choice == 2:
-            self.stdscr.addstr(line_count, 0, "Number of courses: ")
-            in_num_course = int(self.stdscr.getstr(10, len("Number of courses: "), 999))
-            for num in range(0, in_num_course):
-                self.input_course()
-        elif choice == 3:
-            self.input_mark()
-        elif choice == 4:
-            self.calculate_gpa()
-            self.gpa_ranking()
-        elif choice == 5:
-            self.display_student()
-        elif choice == 6:
-            self.display_course()
-        elif choice == 7:
-            self.display_mark()
-        elif choice == 8:
-            self.stdscr.addstr("Goodbye!")
-            exit()
-        else:
-            self.stdscr.addstr("Invalid choice.")
+            gpa = gpa_sum / credits_sum
+            # floor gpa to 1 decimal places
+            gpa = math.floor(gpa * 10) / 10
+            student.set_gpa(gpa)
 
     def main(self):
         while True:
-            self.display_menu()
-            self.stdscr.addstr("\nPress any key to continue.")
-            self.stdscr.getch()
-            self.stdscr.clear()
+            print("\n1. Add student")
+            print("2. Add course")
+            print("3. Add mark")
+            print("4. Output students list")
+            print("5. Output courses list")
+            print("6. Output marks list")
+            print("7. Output student")
+            print("8. Output course")
+            print("9. Output mark")
+            print("10. GPA calculator")
+            print("11. Load data")
+            print("12. Export data")
+            print("13. Exit")
 
+            input_option = int(input("Enter option: "))
+
+            if input_option == 1:
+                subprocess.call('clear', shell=True)
+                self.add_student()
+            elif input_option == 2:
+                subprocess.call('clear', shell=True)
+                self.add_course()
+            elif input_option == 3:
+                subprocess.call('clear', shell=True)
+                self.add_mark()
+            elif input_option == 4:
+                subprocess.call('clear', shell=True)
+                self.output_students_list()
+            elif input_option == 5:
+                subprocess.call('clear', shell=True)
+                self.output_courses_list()
+            elif input_option == 6:
+                subprocess.call('clear', shell=True)
+                self.output_marks_list()
+            elif input_option == 7:
+                subprocess.call('clear', shell=True)
+                self.output_student()
+            elif input_option == 8:
+                subprocess.call('clear', shell=True)
+                self.output_course()
+            elif input_option == 9:
+                subprocess.call('clear', shell=True)
+                self.output_mark()
+            elif input_option == 10:
+                subprocess.call('clear', shell=True)
+                self.gpa_calculator()
+                print("GPA calculator successfully!")
+            elif input_option == 11:
+                subprocess.call('clear', shell=True)
+                self.load_data()
+                print("Load data successfully!")
+            elif input_option == 12:
+                subprocess.call('clear', shell=True)
+                self.export_data()
+                print("Export data successfully!")
+            elif input_option == 13:
+                break
+            else:
+                print("Invalid option!")
 
 if __name__ == "__main__":
     student_management = StudentManagement()
-    curses.wrapper(student_management.main())
+    student_management.main()
+
+
+
+
+
 
