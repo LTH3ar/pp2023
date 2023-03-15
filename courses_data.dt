@@ -1,0 +1,16 @@
+[
+    {
+        "_Course__id": "c001",
+        "_Course__name": "python",
+        "_Course__credit": 4,
+        "_Course__mark_mid_portion": 40.0,
+        "_Course__mark_final_portion": 60.0
+    },
+    {
+        "_Course__id": "c002",
+        "_Course__name": "java",
+        "_Course__credit": 3,
+        "_Course__mark_mid_portion": 40.0,
+        "_Course__mark_final_portion": 60.0
+    }
+]
