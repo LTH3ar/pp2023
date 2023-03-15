@@ -1,0 +1,26 @@
+[
+    {
+        "_Mark__student_id": "s001",
+        "_Mark__course_id": "c001",
+        "_Mark__mark_mid": 13.0,
+        "_Mark__mark_final": 12.0
+    },
+    {
+        "_Mark__student_id": "s001",
+        "_Mark__course_id": "c002",
+        "_Mark__mark_mid": 11.0,
+        "_Mark__mark_final": 14.0
+    },
+    {
+        "_Mark__student_id": "s002",
+        "_Mark__course_id": "c001",
+        "_Mark__mark_mid": 13.0,
+        "_Mark__mark_final": 11.0
+    },
+    {
+        "_Mark__student_id": "s002",
+        "_Mark__course_id": "c002",
+        "_Mark__mark_mid": 15.0,
+        "_Mark__mark_final": 12.0
+    }
+]
