@@ -122,13 +122,14 @@ class Output:
         self.List2File(filename3, self.__mark_list)
 
     def export_data_daemon(self):
-        time.sleep(1)
-        filename1 = "students_data_tmp.dt"
-        filename2 = "courses_data_tmp.dt"
-        filename3 = "marks_data_tmp.dt"
-        self.List2File(filename1, self.__student_list)
-        self.List2File(filename2, self.__course_list)
-        self.List2File(filename3, self.__mark_list)
+        while True:
+            time.sleep(1)
+            filename1 = "students_data_tmp.dt"
+            filename2 = "courses_data_tmp.dt"
+            filename3 = "marks_data_tmp.dt"
+            self.List2File(filename1, self.__student_list)
+            self.List2File(filename2, self.__course_list)
+            self.List2File(filename3, self.__mark_list)
 
     def export_data_rename(self):
         filename1 = "students_data_tmp.dt"
