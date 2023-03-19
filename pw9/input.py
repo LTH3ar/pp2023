@@ -2,7 +2,6 @@ from domains.student import Student
 from domains.course import Course
 from domains.mark import Mark
 import pickle
-import tkinter
 
 class Input:
     def __init__(self, student_list, course_list, mark_list):
