@@ -2,12 +2,14 @@ import pickle
 import tkinter as tk
 import time
 import os
+import threading
 
 class Output:
     def __init__(self, student_list, course_list, mark_list):
         self.__student_list = student_list
         self.__course_list = course_list
         self.__mark_list = mark_list
+
 
     # getters
     def get_student_list(self):
@@ -209,13 +211,21 @@ class Output:
         self.List2File(filename3, self.__mark_list)
 
     def export_data_daemon(self):
-        time.sleep(1)
-        filename1 = "students_data_tmp.dt"
-        filename2 = "courses_data_tmp.dt"
-        filename3 = "marks_data_tmp.dt"
-        self.List2File(filename1, self.__student_list)
-        self.List2File(filename2, self.__course_list)
-        self.List2File(filename3, self.__mark_list)
+        while True:
+            time.sleep(1)
+            filename1 = "students_data_tmp.dt"
+            filename2 = "courses_data_tmp.dt"
+            filename3 = "marks_data_tmp.dt"
+            self.List2File(filename1, self.__student_list)
+            print("exporting students data")
+            self.List2File(filename2, self.__course_list)
+            print("exporting courses data")
+            self.List2File(filename3, self.__mark_list)
+            print("exporting marks data")
+    def daemon(self):
+        self.thread_background = threading.Thread(target=self.export_data_daemon, daemon=True)
+        self.thread_background.start()
+
 
     def export_data_rename(self):
         filename1 = "students_data_tmp.dt"

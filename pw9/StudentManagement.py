@@ -16,10 +16,12 @@ class StudentManagement:
         self.mark_list = []
         self.input_funcs = Input(self.student_list, self.course_list, self.mark_list)
         self.output_funcs = Output(self.student_list, self.course_list, self.mark_list)
-        threading.Thread(target=self.output_funcs.export_data_daemon, daemon=True).start()
 
     def gpa_calculator(self):
         max_point = float(20)
+        max_credit = 0
+        for credit in self.course_list:
+            max_credit += int(credit.get_credit())
         for student in self.student_list:
             gpa_sum = 0
             credits_sum = 0
@@ -43,9 +45,12 @@ class StudentManagement:
                         print(f"gpa_sum: {gpa_sum}")
                         print(f"credits_sum: {credits_sum}")
 
-            gpa = gpa_sum / credits_sum
-            # floor gpa to 1 decimal places
-            gpa = math.floor(gpa * 10) / 10
+            if credits_sum < max_credit:
+                gpa = "N/A"
+            else:
+                gpa = gpa_sum / credits_sum
+                # floor gpa to 1 decimal places
+                gpa = math.floor(gpa * 10) / 10
             student.set_gpa(gpa)
 
     def option_select(self, input_option):
@@ -139,7 +144,3 @@ class StudentManagement:
 
         else:
             print("Invalid option")
-
-#    def __del__(self):
-#        self.sm_window.destroy()
-

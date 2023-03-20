@@ -1,17 +1,14 @@
 from StudentManagement import StudentManagement
 import tkinter as tk
+import threading
 
 class Menu:
     def __init__(self):
         self.menu_window = tk.Tk()
         self.student_management = StudentManagement()
-        self.choice = int(0)
-
-#    def set_choice(self, num):
-#        self.choice = num
+        self.student_management.output_funcs.daemon()
 
     def menu(self):
-        #tk
         self.menu_window.title("Menu")
         self.menu_window.geometry("300x300")
         self.menu_window.resizable(True, True)
@@ -45,9 +42,4 @@ class Menu:
         self.menu_window.mainloop()
 
     def main(self):
-        while True:
-            self.menu()
-
-
-#    def __del__(self):
-#        self.menu_window.mainloop()
+        self.menu()

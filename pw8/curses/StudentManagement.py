@@ -26,6 +26,9 @@ class StudentManagement:
 
     def gpa_calculator(self):
         max_point = float(20)
+        max_credit = 0
+        for credit in self.course_list:
+            max_credit += int(credit.get_credit())
         for student in self.student_list:
             gpa_sum = 0
             credits_sum = 0
@@ -47,9 +50,12 @@ class StudentManagement:
                         gpa_sum += mark_full * course.get_credit()
                         credits_sum += course.get_credit()
 
-            gpa = gpa_sum / credits_sum
-            # floor gpa to 1 decimal places
-            gpa = math.floor(gpa * 10) / 10
+            if credits_sum < max_credit:
+                gpa = "N/A"
+            else:
+                gpa = gpa_sum / credits_sum
+                # floor gpa to 1 decimal places
+                gpa = math.floor(gpa * 10) / 10
             student.set_gpa(gpa)
 
     def option_select(self, input_option):
