@@ -1,14 +1,10 @@
-from domains.student import Student
-from domains.course import Course
-from domains.mark import Mark
 import pickle
-import curses
+import tkinter as tk
 import time
 import os
 
 class Output:
     def __init__(self, student_list, course_list, mark_list):
-        self.stdscr = curses.initscr()
         self.__student_list = student_list
         self.__course_list = course_list
         self.__mark_list = mark_list
@@ -24,90 +20,205 @@ class Output:
         return self.__mark_list
 
     def output_students_list(self):
-        self.stdscr.clear()
-        line_count = 0
+        output_tk_window = tk.Toplevel()
+        #rewrite the above code to use tkinter
+        output_tk_window.title("Student List")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        self.scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        self.scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        self.scrollbar = tk.Scrollbar(output_tk_window)
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        self.scroll_list.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.scroll_list.yview)
+
+        #add data to scroll list
         for i in self.__student_list:
-            self.stdscr.addstr(line_count, 0, "ID: " + str(i.get_id()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Name: " + str(i.get_name()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "DoB: " + str(i.get_dob()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "GPA: " + str(i.get_gpa()))
-            line_count += 2
+            self.scroll_list.insert(tk.END, "ID: " + str(i.get_id()))
+            self.scroll_list.insert(tk.END, "Name: " + str(i.get_name()))
+            self.scroll_list.insert(tk.END, "DoB: " + str(i.get_dob()))
+            self.scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
+            self.scroll_list.insert(tk.END, " ")
+
+        #add a button to close the window
+        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
+
+
 
     def output_courses_list(self):
-        self.stdscr.clear()
-        line_count = 0
+        output_tk_window = tk.Toplevel()
+        #the same for courses and marks
+        output_tk_window.title("Course List")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        self.scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        self.scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        self.scrollbar = tk.Scrollbar(output_tk_window)
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        self.scroll_list.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.scroll_list.yview)
+
+        #add data to scroll list
         for i in self.__course_list:
-            self.stdscr.addstr(line_count, 0, "Course_ID: " + str(i.get_id()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Course_Name: " + str(i.get_name()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Credit: " + str(i.get_credit()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Mid_%: " + str(i.get_mark_mid_portion()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Final_%: " + str(i.get_mark_final_portion()))
-            line_count += 2
+            self.scroll_list.insert(tk.END, "Course_ID: " + str(i.get_id()))
+            self.scroll_list.insert(tk.END, "Course_Name: " + str(i.get_name()))
+            self.scroll_list.insert(tk.END, "Credit: " + str(i.get_credit()))
+            self.scroll_list.insert(tk.END, "Mid_%: " + str(i.get_mid_percent()))
+            self.scroll_list.insert(tk.END, "Final_%: " + str(i.get_final_percent()))
+            self.scroll_list.insert(tk.END, " ")
+
+        #add a button to close the window
+        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
+
+
+
 
     def output_marks_list(self):
-        self.stdscr.clear()
-        line_count = 0
+        output_tk_window = tk.Toplevel()
+        #the same for courses and marks
+        output_tk_window.title("Mark List")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        self.scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        self.scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        self.scrollbar = tk.Scrollbar(output_tk_window)
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        self.scroll_list.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.scroll_list.yview)
+
+        #add data to scroll list
         for i in self.__mark_list:
-            self.stdscr.addstr(line_count, 0, "Student ID: " + str(i.get_student_id()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Course ID: " + str(i.get_course_id()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Mid: " + str(i.get_mark_mid()))
-            line_count += 1
-            self.stdscr.addstr(line_count, 0, "Final: " + str(i.get_mark_final()))
-            line_count += 2
+            self.scroll_list.insert(tk.END, "Student_ID: " + str(i.get_student_id()))
+            self.scroll_list.insert(tk.END, "Course_ID: " + str(i.get_course_id()))
+            self.scroll_list.insert(tk.END, "Midterm: " + str(i.get_midterm()))
+            self.scroll_list.insert(tk.END, "Final: " + str(i.get_final()))
+            self.scroll_list.insert(tk.END, " ")
+
+        #add a button to close the window
+        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
+
 
 
     def output_student(self, student_id):
-        self.stdscr.clear()
-        line_count = 0
+        output_tk_window = tk.Toplevel()
+        #the same for courses and marks
+        output_tk_window.title("Student")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        self.scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        self.scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        self.scrollbar = tk.Scrollbar(output_tk_window)
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        self.scroll_list.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.scroll_list.yview)
+
+        #add data to scroll list
         for i in self.__student_list:
             if i.get_id() == student_id:
-                self.stdscr.addstr(line_count, 0, "ID: " + str(i.get_id()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Name: " + str(i.get_name()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "DoB: " + str(i.get_dob()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "GPA: " + str(i.get_gpa()))
-                line_count += 2
+                self.scroll_list.insert(tk.END, "ID: " + str(i.get_id()))
+                self.scroll_list.insert(tk.END, "Name: " + str(i.get_name()))
+                self.scroll_list.insert(tk.END, "DoB: " + str(i.get_dob()))
+                self.scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
+                self.scroll_list.insert(tk.END, " ")
+
+        #add a button to close the window
+        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
+
 
     def output_course(self, course_id):
-        self.stdscr.clear()
-        line_count = 0
+        output_tk_window = tk.Toplevel()
+        #the same for courses and marks
+        output_tk_window.title("Course")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        self.scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        self.scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        self.scrollbar = tk.Scrollbar(output_tk_window)
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        self.scroll_list.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.scroll_list.yview)
+
+        #add data to scroll list
         for i in self.__course_list:
             if i.get_id() == course_id:
-                self.stdscr.addstr(line_count, 0, "Course_ID: " + str(i.get_id()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Course_Name: " + str(i.get_name()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Credit: " + str(i.get_credit()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Mid_%: " + str(i.get_mark_mid_portion()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Final_%: " + str(i.get_mark_final_portion()))
-                line_count += 2
+                self.scroll_list.insert(tk.END, "ID: " + str(i.get_id()))
+                self.scroll_list.insert(tk.END, "Name: " + str(i.get_name()))
+                self.scroll_list.insert(tk.END, "Credit: " + str(i.get_credit()))
+                self.scroll_list.insert(tk.END, "Mid_%: " + str(i.get_mid_percent()))
+                self.scroll_list.insert(tk.END, "Final_%: " + str(i.get_final_percent()))
+                self.scroll_list.insert(tk.END, " ")
+
+        #add a button to close the window
+        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
+
 
     def output_mark(self, student_id, course_id):
-        self.stdscr.clear()
-        line_count = 0
+        output_tk_window = tk.Toplevel()
+        #the same for courses and marks
+        output_tk_window.title("Mark")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        self.scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        self.scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        self.scrollbar = tk.Scrollbar(output_tk_window)
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        self.scroll_list.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.scroll_list.yview)
+
+        #add data to scroll list
         for i in self.__mark_list:
-            if i.get_course_id() == course_id and i.get_student_id() == student_id:
-                self.stdscr.addstr(line_count, 0, "Student ID: " + str(i.get_student_id()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Course ID: " + str(i.get_course_id()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Mid: " + str(i.get_mark_mid()))
-                line_count += 1
-                self.stdscr.addstr(line_count, 0, "Final: " + str(i.get_mark_final()))
-                line_count += 2
+            if i.get_student_id() == student_id and i.get_course_id() == course_id:
+                self.scroll_list.insert(tk.END, "Student ID: " + str(i.get_student_id()))
+                self.scroll_list.insert(tk.END, "Course ID: " + str(i.get_course_id()))
+                self.scroll_list.insert(tk.END, "Midterm: " + str(i.get_midterm()))
+                self.scroll_list.insert(tk.END, "Final: " + str(i.get_final()))
+                self.scroll_list.insert(tk.END, " ")
+
+        #add a button to close the window
+        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
+
 
     def List2File(self, filename, lst):
         with open(filename, "wb") as file:
@@ -139,5 +250,5 @@ class Output:
         os.rename(filename3, "marks_data.dt")
 
 
-    def __del__(self):
-        curses.endwin()
+#    def __del__(self):
+#        self.output_tk_window.destroy()

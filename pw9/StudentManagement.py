@@ -2,13 +2,8 @@ import sys
 
 from input import Input
 from output import Output
-import subprocess
-from domains.student import Student
-from domains.course import Course
-from domains.mark import Mark
-import json
 import math
-import curses
+import tkinter as tk
 import threading
 import os
 
@@ -16,12 +11,11 @@ import os
 class StudentManagement:
     #init
     def __init__(self):
-        self.stdscr = curses.initscr()
         self.student_list = []
         self.course_list = []
         self.mark_list = []
-        self.input_funcs = Input(self.student_list, self.course_list, self.mark_list)
-        self.output_funcs = Output(self.student_list, self.course_list, self.mark_list)
+        self.input_funcs = Input(self.student_list, self.course_list, self.mark_list, self.sm_window)
+        self.output_funcs = Output(self.student_list, self.course_list, self.mark_list, self.sm_window)
         threading.Thread(target=self.output_funcs.export_data_daemon, daemon=True).start()
 
     def gpa_calculator(self):
@@ -73,24 +67,55 @@ class StudentManagement:
             self.output_funcs.output_marks_list()
 
         elif input_option == 7:
-            self.stdscr.clear()
-            self.stdscr.addstr(0, 0, "Enter student id: ")
-            input_student_id = str(self.stdscr.getstr(1, len("Enter student id: ") + 1, 20))
-            self.output_funcs.output_student(input_student_id)
+            sm_window = tk.Toplevel()
+            #rewrite the above code to use tkinter
+            sm_window.title("Student search")
+            sm_window.geometry("500x500")
+            sm_window.configure(bg="white")
+            sm_window.resizable(False, False)
+            lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
+            lbl_input_student_id.grid(row=0, column=0)
+            txt_input_student_id = tk.Entry(sm_window, width=20)
+            txt_input_student_id.grid(row=1, column=0)
+            input_student_id = txt_input_student_id.get()
+            #submits button
+            btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_student(input_student_id))
+            btn_submit.grid(row=2, column=0)
 
         elif input_option == 8:
-            self.stdscr.clear()
-            self.stdscr.addstr(0, 0, "Enter course id: ")
-            input_course_id = str(self.stdscr.getstr(1, len("Enter course id: ") + 1, 20))
-            self.output_funcs.output_course(input_course_id)
+            sm_window = tk.Toplevel()
+            sm_window.title("Course search")
+            sm_window.geometry("500x500")
+            sm_window.configure(bg="white")
+            sm_window.resizable(False, False)
+            lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
+            lbl_input_course_id.grid(row=0, column=0)
+            txt_input_course_id = tk.Entry(sm_window, width=20)
+            txt_input_course_id.grid(row=1, column=0)
+            input_course_id = txt_input_course_id.get()
+            #submits button
+            btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_course(input_course_id))
+            btn_submit.grid(row=2, column=0)
 
         elif input_option == 9:
-            self.stdscr.clear()
-            self.stdscr.addstr(0, 0, "Enter student id: ")
-            input_student_id = str(self.stdscr.getstr(1, len("Enter student id: ") + 1, 20))
-            self.stdscr.addstr(2, 0, "Enter course id: ")
-            input_course_id = str(self.stdscr.getstr(3, len("Enter course id: ") + 1, 20))
-            self.output_funcs.output_mark(input_student_id, input_course_id)
+            sm_window = tk.Toplevel()
+            sm_window.title("Mark search")
+            sm_window.geometry("500x500")
+            sm_window.configure(bg="white")
+            sm_window.resizable(False, False)
+            lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
+            lbl_input_student_id.grid(row=0, column=0)
+            txt_input_student_id = tk.Entry(sm_window, width=20)
+            txt_input_student_id.grid(row=1, column=0)
+            input_student_id = txt_input_student_id.get()
+            lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
+            lbl_input_course_id.grid(row=2, column=0)
+            txt_input_course_id = tk.Entry(sm_window, width=20)
+            txt_input_course_id.grid(row=3, column=0)
+            input_course_id = txt_input_course_id.get()
+            #submits button
+            btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_mark(input_student_id, input_course_id))
+            btn_submit.grid(row=4, column=0)
 
         elif input_option == 10:
             self.gpa_calculator()
@@ -113,6 +138,6 @@ class StudentManagement:
         else:
             print("Invalid option")
 
-    def __del__(self):
-        curses.endwin()
+#    def __del__(self):
+#        self.sm_window.destroy()
 

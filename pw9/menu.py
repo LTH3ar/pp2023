@@ -4,8 +4,8 @@ import tkinter as tk
 
 class Menu:
     def __init__(self):
-        self.menu_window = tk.Tk()
         self.student_management = StudentManagement()
+        self.menu_window = self.student_management.sm_window
         self.choice = int(0)
 
     def set_choice(self, num):
@@ -52,4 +52,4 @@ class Menu:
             self.menu()
 
     def __del__(self):
-        curses.endwin()
+        self.menu_window.destroy()
