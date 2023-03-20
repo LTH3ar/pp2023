@@ -47,10 +47,6 @@ class Output:
             self.scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
             self.scroll_list.insert(tk.END, " ")
 
-        #add a button to close the window
-        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
-
-
 
     def output_courses_list(self):
         output_tk_window = tk.Toplevel()
@@ -77,14 +73,9 @@ class Output:
             self.scroll_list.insert(tk.END, "Course_ID: " + str(i.get_id()))
             self.scroll_list.insert(tk.END, "Course_Name: " + str(i.get_name()))
             self.scroll_list.insert(tk.END, "Credit: " + str(i.get_credit()))
-            self.scroll_list.insert(tk.END, "Mid_%: " + str(i.get_mid_percent()))
-            self.scroll_list.insert(tk.END, "Final_%: " + str(i.get_final_percent()))
+            self.scroll_list.insert(tk.END, "Mid_%: " + str(i.get_mark_mid_portion()))
+            self.scroll_list.insert(tk.END, "Final_%: " + str(i.get_mark_final_portion()))
             self.scroll_list.insert(tk.END, " ")
-
-        #add a button to close the window
-        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
-
-
 
 
     def output_marks_list(self):
@@ -111,14 +102,9 @@ class Output:
         for i in self.__mark_list:
             self.scroll_list.insert(tk.END, "Student_ID: " + str(i.get_student_id()))
             self.scroll_list.insert(tk.END, "Course_ID: " + str(i.get_course_id()))
-            self.scroll_list.insert(tk.END, "Midterm: " + str(i.get_midterm()))
-            self.scroll_list.insert(tk.END, "Final: " + str(i.get_final()))
+            self.scroll_list.insert(tk.END, "Midterm: " + str(i.get_mark_mid()))
+            self.scroll_list.insert(tk.END, "Final: " + str(i.get_mark_final()))
             self.scroll_list.insert(tk.END, " ")
-
-        #add a button to close the window
-        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
-
-
 
     def output_student(self, student_id):
         output_tk_window = tk.Toplevel()
@@ -149,10 +135,6 @@ class Output:
                 self.scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
                 self.scroll_list.insert(tk.END, " ")
 
-        #add a button to close the window
-        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
-
-
     def output_course(self, course_id):
         output_tk_window = tk.Toplevel()
         #the same for courses and marks
@@ -179,12 +161,9 @@ class Output:
                 self.scroll_list.insert(tk.END, "ID: " + str(i.get_id()))
                 self.scroll_list.insert(tk.END, "Name: " + str(i.get_name()))
                 self.scroll_list.insert(tk.END, "Credit: " + str(i.get_credit()))
-                self.scroll_list.insert(tk.END, "Mid_%: " + str(i.get_mid_percent()))
-                self.scroll_list.insert(tk.END, "Final_%: " + str(i.get_final_percent()))
+                self.scroll_list.insert(tk.END, "Mid_%: " + str(i.get_mark_mid_portion()))
+                self.scroll_list.insert(tk.END, "Final_%: " + str(i.get_mark_final_portion()))
                 self.scroll_list.insert(tk.END, " ")
-
-        #add a button to close the window
-        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
 
 
     def output_mark(self, student_id, course_id):
@@ -212,12 +191,9 @@ class Output:
             if i.get_student_id() == student_id and i.get_course_id() == course_id:
                 self.scroll_list.insert(tk.END, "Student ID: " + str(i.get_student_id()))
                 self.scroll_list.insert(tk.END, "Course ID: " + str(i.get_course_id()))
-                self.scroll_list.insert(tk.END, "Midterm: " + str(i.get_midterm()))
-                self.scroll_list.insert(tk.END, "Final: " + str(i.get_final()))
+                self.scroll_list.insert(tk.END, "Midterm: " + str(i.get_mark_mid()))
+                self.scroll_list.insert(tk.END, "Final: " + str(i.get_mark_final()))
                 self.scroll_list.insert(tk.END, " ")
-
-        #add a button to close the window
-        self.close_button = tk.Button(output_tk_window, text="Close", command=output_tk_window.destroy)
 
 
     def List2File(self, filename, lst):

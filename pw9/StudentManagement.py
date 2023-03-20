@@ -14,8 +14,8 @@ class StudentManagement:
         self.student_list = []
         self.course_list = []
         self.mark_list = []
-        self.input_funcs = Input(self.student_list, self.course_list, self.mark_list, self.sm_window)
-        self.output_funcs = Output(self.student_list, self.course_list, self.mark_list, self.sm_window)
+        self.input_funcs = Input(self.student_list, self.course_list, self.mark_list)
+        self.output_funcs = Output(self.student_list, self.course_list, self.mark_list)
         threading.Thread(target=self.output_funcs.export_data_daemon, daemon=True).start()
 
     def gpa_calculator(self):
@@ -26,11 +26,11 @@ class StudentManagement:
             for course in self.course_list:
                 for mark in self.mark_list:
                     if course.get_id() == mark.get_course_id() and mark.get_student_id() == student.get_id():
-                        mark_mid = (mark.get_mark_mid() / max_point) * ((course.get_mark_mid_portion() / 100) * max_point)
+                        mark_mid = (float(mark.get_mark_mid()) / max_point) * ((float(course.get_mark_mid_portion()) / 100) * max_point)
                         # floor mark_mid to 1 decimal places
                         mark_mid = math.floor(mark_mid * 10) / 10
 
-                        mark_final = (mark.get_mark_final() / max_point) * ((course.get_mark_final_portion() / 100) * max_point)
+                        mark_final = (float(mark.get_mark_final()) / max_point) * ((float(course.get_mark_final_portion()) / 100) * max_point)
                         # floor mark_final to 1 decimal places
                         mark_final = math.floor(mark_final * 10) / 10
 
@@ -38,8 +38,10 @@ class StudentManagement:
                         # floor gpa to 1 decimal places
                         mark_full = math.floor(mark_full * 10) / 10
 
-                        gpa_sum += mark_full * course.get_credit()
-                        credits_sum += course.get_credit()
+                        gpa_sum += mark_full * float(course.get_credit())
+                        credits_sum += int(course.get_credit())
+                        print(f"gpa_sum: {gpa_sum}")
+                        print(f"credits_sum: {credits_sum}")
 
             gpa = gpa_sum / credits_sum
             # floor gpa to 1 decimal places
@@ -49,13 +51,13 @@ class StudentManagement:
     def option_select(self, input_option):
 
         if input_option == 1:
-            self.input_funcs.add_student()
+            self.input_funcs.input_student()
 
         elif input_option == 2:
-            self.input_funcs.add_course()
+            self.input_funcs.input_course()
 
         elif input_option == 3:
-            self.input_funcs.add_mark()
+            self.input_funcs.input_mark()
 
         elif input_option == 4:
             self.output_funcs.output_students_list()
