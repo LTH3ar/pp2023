@@ -2,11 +2,6 @@ import sys
 
 from input import Input
 from output import Output
-import subprocess
-from domains.student import Student
-from domains.course import Course
-from domains.mark import Mark
-import json
 import math
 import curses
 import threading
@@ -34,12 +29,15 @@ class StudentManagement:
             credits_sum = 0
             for course in self.course_list:
                 for mark in self.mark_list:
-                    if course.get_id() == mark.get_course_id() and mark.get_student_id() == student.get_id():
-                        mark_mid = (mark.get_mark_mid() / max_point) * ((course.get_mark_mid_portion() / 100) * max_point)
+                    if (course.get_id() == mark.get_course_id()
+                            and mark.get_student_id() == student.get_id()):
+                        mark_mid = ((float(mark.get_mark_mid()) / max_point)
+                                    * ((float(course.get_mark_mid_portion()) / 100) * max_point))
                         # floor mark_mid to 1 decimal places
                         mark_mid = math.floor(mark_mid * 10) / 10
 
-                        mark_final = (mark.get_mark_final() / max_point) * ((course.get_mark_final_portion() / 100) * max_point)
+                        mark_final = ((float(mark.get_mark_final()) / max_point)
+                                      * ((float(course.get_mark_final_portion()) / 100) * max_point))
                         # floor mark_final to 1 decimal places
                         mark_final = math.floor(mark_final * 10) / 10
 
@@ -47,8 +45,10 @@ class StudentManagement:
                         # floor gpa to 1 decimal places
                         mark_full = math.floor(mark_full * 10) / 10
 
-                        gpa_sum += mark_full * course.get_credit()
-                        credits_sum += course.get_credit()
+                        gpa_sum += mark_full * float(course.get_credit())
+                        credits_sum += int(course.get_credit())
+                        print(f"gpa_sum: {gpa_sum}")
+                        print(f"credits_sum: {credits_sum}")
 
             if credits_sum < max_credit:
                 gpa = "N/A"

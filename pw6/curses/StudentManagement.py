@@ -2,11 +2,6 @@ import sys
 
 from input import Input
 from output import Output
-import subprocess
-from domains.student import Student
-from domains.course import Course
-from domains.mark import Mark
-import json
 import math
 import curses
 
@@ -23,17 +18,23 @@ class StudentManagement:
 
     def gpa_calculator(self):
         max_point = float(20)
+        max_credit = 0
+        for credit in self.course_list:
+            max_credit += int(credit.get_credit())
         for student in self.student_list:
             gpa_sum = 0
             credits_sum = 0
             for course in self.course_list:
                 for mark in self.mark_list:
-                    if course.get_id() == mark.get_course_id() and mark.get_student_id() == student.get_id():
-                        mark_mid = (mark.get_mark_mid() / max_point) * ((course.get_mark_mid_portion() / 100) * max_point)
+                    if (course.get_id() == mark.get_course_id()
+                            and mark.get_student_id() == student.get_id()):
+                        mark_mid = ((float(mark.get_mark_mid()) / max_point)
+                                    * ((float(course.get_mark_mid_portion()) / 100) * max_point))
                         # floor mark_mid to 1 decimal places
                         mark_mid = math.floor(mark_mid * 10) / 10
 
-                        mark_final = (mark.get_mark_final() / max_point) * ((course.get_mark_final_portion() / 100) * max_point)
+                        mark_final = ((float(mark.get_mark_final()) / max_point)
+                                      * ((float(course.get_mark_final_portion()) / 100) * max_point))
                         # floor mark_final to 1 decimal places
                         mark_final = math.floor(mark_final * 10) / 10
 
@@ -41,12 +42,15 @@ class StudentManagement:
                         # floor gpa to 1 decimal places
                         mark_full = math.floor(mark_full * 10) / 10
 
-                        gpa_sum += mark_full * course.get_credit()
-                        credits_sum += course.get_credit()
+                        gpa_sum += mark_full * float(course.get_credit())
+                        credits_sum += int(course.get_credit())
 
-            gpa = gpa_sum / credits_sum
-            # floor gpa to 1 decimal places
-            gpa = math.floor(gpa * 10) / 10
+            if credits_sum < max_credit:
+                gpa = "N/A"
+            else:
+                gpa = gpa_sum / credits_sum
+                # floor gpa to 1 decimal places
+                gpa = math.floor(gpa * 10) / 10
             student.set_gpa(gpa)
 
     def option_select(self, input_option):
