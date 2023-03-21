@@ -5,10 +5,11 @@ import os
 import threading
 
 class Output:
-    def __init__(self, student_list, course_list, mark_list):
+    def __init__(self, student_list, course_list, mark_list, menu_window):
         self.__student_list = student_list
         self.__course_list = course_list
         self.__mark_list = mark_list
+        self.menu_window = menu_window
 
     # getters
     def get_student_list(self):
@@ -21,7 +22,7 @@ class Output:
         return self.__mark_list
 
     def output_students_list(self):
-        output_tk_window = tk.Toplevel()
+        output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Student List")
         output_tk_window.geometry("500x500")
         output_tk_window.resizable(True, True)
@@ -48,7 +49,7 @@ class Output:
             scroll_list.insert(tk.END, " ")
 
     def output_students_list_sorted(self, lst_sorted):
-        output_tk_window = tk.Toplevel()
+        output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Student List")
         output_tk_window.geometry("500x500")
         output_tk_window.resizable(True, True)
@@ -76,7 +77,7 @@ class Output:
 
 
     def output_courses_list(self):
-        output_tk_window = tk.Toplevel()
+        output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Course List")
         output_tk_window.geometry("500x500")
         output_tk_window.resizable(True, True)
@@ -105,7 +106,7 @@ class Output:
 
 
     def output_marks_list(self):
-        output_tk_window = tk.Toplevel()
+        output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Mark List")
         output_tk_window.geometry("500x500")
         output_tk_window.resizable(True, True)
@@ -132,7 +133,7 @@ class Output:
             scroll_list.insert(tk.END, " ")
 
     def output_student(self, student_id):
-        output_tk_window = tk.Toplevel()
+        output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Student")
         output_tk_window.geometry("500x500")
         output_tk_window.resizable(True, True)
@@ -160,7 +161,7 @@ class Output:
                 scroll_list.insert(tk.END, " ")
 
     def output_course(self, course_id):
-        output_tk_window = tk.Toplevel()
+        output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Course")
         output_tk_window.geometry("500x500")
         output_tk_window.resizable(True, True)

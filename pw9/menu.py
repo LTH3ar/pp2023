@@ -4,7 +4,7 @@ import tkinter as tk
 class Menu:
     def __init__(self):
         self.menu_window = tk.Tk()
-        self.student_management = StudentManagement()
+        self.student_management = StudentManagement(self.menu_window)
         self.frame = tk.Frame(self.menu_window)
         self.frame.pack()
 
@@ -15,17 +15,17 @@ class Menu:
         self.menu_window.resizable(True, True)
         # set output number to each button
         self.menu_window.button_1 = tk.Button(self.menu_window,
-                                              text="1. Add student",
+                                              text="1. Add/Remove/Update student",
                                               command=lambda: self.student_management.option_select(1))
         self.menu_window.button_1.pack()
 
         self.menu_window.button_2 = tk.Button(self.menu_window,
-                                              text="2. Add course",
+                                              text="2. Add/Remove/Update course",
                                               command=lambda: self.student_management.option_select(2))
         self.menu_window.button_2.pack()
 
         self.menu_window.button_3 = tk.Button(self.menu_window,
-                                              text="3. Add mark",
+                                              text="3. Add/Remove/Update mark",
                                               command=lambda: self.student_management.option_select(3))
         self.menu_window.button_3.pack()
 

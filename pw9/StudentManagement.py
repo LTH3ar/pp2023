@@ -11,16 +11,19 @@ from domains.student import Student
 
 class StudentManagement:
     #init
-    def __init__(self):
+    def __init__(self, menu_window):
         self.student_list = []
         self.course_list = []
         self.mark_list = []
+        self.menu_window = menu_window
         self.input_funcs = Input(self.student_list,
                                  self.course_list,
-                                 self.mark_list)
+                                 self.mark_list,
+                                 self.menu_window)
         self.output_funcs = Output(self.student_list,
                                    self.course_list,
-                                   self.mark_list)
+                                   self.mark_list,
+                                   self.menu_window)
         self.background_thread()
 
     def background_thread(self):
@@ -153,7 +156,7 @@ class StudentManagement:
             self.output_funcs.output_marks_list()
 
         elif input_option == 7:
-            sm_window = tk.Toplevel()
+            sm_window = tk.Toplevel(self.menu_window)
             sm_window.title("Student search")
             sm_window.geometry("500x500")
             sm_window.configure(bg="white")
@@ -174,7 +177,7 @@ class StudentManagement:
 
 
         elif input_option == 8:
-            sm_window = tk.Toplevel()
+            sm_window = tk.Toplevel(self.menu_window)
             sm_window.title("Course search")
             sm_window.geometry("500x500")
             sm_window.configure(bg="white")
@@ -194,7 +197,7 @@ class StudentManagement:
             txt_input_course_id.delete(0, tk.END)
 
         elif input_option == 9:
-            sm_window = tk.Toplevel()
+            sm_window = tk.Toplevel(self.menu_window)
             sm_window.title("Mark search")
             sm_window.geometry("500x500")
             sm_window.configure(bg="white")

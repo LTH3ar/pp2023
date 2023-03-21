@@ -1,3 +1,4 @@
+import numpy as np
 class Student:
     #init
     def __init__(self, student_id, student_name, dob, gpa):
@@ -25,7 +26,7 @@ class Student:
     def set_gpa(self, gpa):
         if isinstance(gpa, float) and 0.0 <= gpa <= 20.0:
             self.__gpa = gpa
-        elif gpa == "N/A":
+        elif gpa == "N/A" or gpa is None or gpa is np.nan:
             self.__gpa = gpa
         else:
             raise ValueError("Invalid GPA")
