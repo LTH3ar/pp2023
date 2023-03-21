@@ -212,7 +212,7 @@ class Output:
 
     def export_data_daemon(self):
         while True:
-            time.sleep(1)
+            time.sleep(3)
             filename1 = "students_data_tmp.dt"
             filename2 = "courses_data_tmp.dt"
             filename3 = "marks_data_tmp.dt"
@@ -222,7 +222,7 @@ class Output:
             print("exporting courses data")
             self.List2File(filename3, self.__mark_list)
             print("exporting marks data")
-    def daemon(self):
+    def daemon_thread(self):
         self.thread_background = threading.Thread(target=self.export_data_daemon, daemon=True)
         self.thread_background.start()
 

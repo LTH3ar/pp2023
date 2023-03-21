@@ -1,6 +1,3 @@
-from domains.student import Student
-from domains.course import Course
-from domains.mark import Mark
 import pickle
 import curses
 import time
@@ -12,6 +9,7 @@ class Output:
         self.__student_list = student_list
         self.__course_list = course_list
         self.__mark_list = mark_list
+        #self.counter = 0
 
     # getters
     def get_student_list(self):
@@ -123,6 +121,7 @@ class Output:
 
     def export_data_daemon(self):
         while True:
+            #self.counter += 1 # for testing
             time.sleep(1)
             filename1 = "students_data_tmp.dt"
             filename2 = "courses_data_tmp.dt"

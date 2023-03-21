@@ -6,11 +6,10 @@ class Menu:
     def __init__(self):
         self.menu_window = tk.Tk()
         self.student_management = StudentManagement()
-        self.student_management.output_funcs.daemon()
 
     def menu(self):
         self.menu_window.title("Menu")
-        self.menu_window.geometry("300x300")
+        self.menu_window.geometry("500x500")
         self.menu_window.resizable(True, True)
         # set output number to each button
         self.menu_window.button_1 = tk.Button(self.menu_window, text="1. Add student", command=lambda: self.student_management.option_select(1))
