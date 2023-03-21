@@ -1,6 +1,7 @@
 import math
 import json
 import subprocess
+import numpy as np
 
 class Student:
     #init
@@ -10,16 +11,17 @@ class Student:
         self.__dob = dob
         self.__gpa = gpa
 
-    #setters
+    #setters (only use when needed)
+    '''
     def set_id(self, student_id):
         self.__id = student_id
     def set_name(self, student_name):
         self.__name = student_name
     def set_dob(self, dob):
         self.__dob = dob
+    '''
     def set_gpa(self, gpa):
         self.__gpa = gpa
-
     #getters
     def get_id(self):
         return self.__id
@@ -40,7 +42,8 @@ class Course:
         self.__mark_mid_portion = course_mark_mid_portion
         self.__mark_final_portion = course_mark_final_portion
 
-    #setters
+    #setters (only use when needed)
+    '''
     def set_id(self, course_id):
         self.__id = course_id
     def set_name(self, course_name):
@@ -51,7 +54,7 @@ class Course:
         self.__mark_mid_portion = course_mark_mid_portion
     def set_mark_final_portion(self, course_mark_final_portion):
         self.__mark_final_portion = course_mark_final_portion
-
+    '''
     #getters
     def get_id(self):
         return self.__id
@@ -73,7 +76,7 @@ class Mark:
         self.__mark_mid = mark_mid
         self.__mark_final = mark_final
 
-    #setters
+    #setters (only use when needed)
     def set_student_id(self, student_id):
         self.__student_id = student_id
     def set_course_id(self, course_id):
@@ -101,13 +104,15 @@ class IOFuncs:
         self.__course_list = course_list
         self.__mark_list = mark_list
 
-    #setters
+    #setters (only use when needed)
+    '''
     def set_student_list(self, student_list):
         self.__student_list = student_list
     def set_course_list(self, course_list):
         self.__course_list = course_list
     def set_mark_list(self, mark_list):
         self.__mark_list = mark_list
+    '''
 
     #getters
     def get_student_list(self):
@@ -341,6 +346,61 @@ class StudentManagement:
                 gpa = math.floor(gpa * 10) / 10
             student.set_gpa(gpa)
 
+    def gpa_ranking_Low2High(self):
+        student_dtype = np.dtype([
+            ('id', np.str_, 16),
+            ('name', np.str_, 16),
+            ('dob', np.str_, 10),
+            ('__gpa', np.float32)
+        ])
+
+        tmp_gpa = []
+        for student in self.student_list:
+            tmp_gpa.append(student)
+
+        for i in tmp_gpa:
+            if i.get_gpa() == "N/A":
+                i.set_gpa(np.nan)
+        # Create a list of tuples from the student objects
+        gpa_list = [(s.get_id(), s.get_name(), s.get_dob(), s.get_gpa()) for s in tmp_gpa]
+
+        # Convert the list to a structured numpy array
+        gpa_arr = np.array(gpa_list, dtype=student_dtype)
+        # Sort the array by GPA
+        gpa_arr = np.sort(gpa_arr, order='__gpa')
+        # Print the sorted array
+        for s in gpa_arr:
+            print(s)
+
+    def gpa_ranking_High2Low(self):
+        # sort by numpy
+        student_dtype = np.dtype([
+            ('id', np.str_, 16),
+            ('name', np.str_, 16),
+            ('dob', np.str_, 10),
+            ('__gpa', np.float32)
+        ])
+
+        tmp_gpa = []
+        for student in self.student_list:
+            tmp_gpa.append(student)
+
+        for i in tmp_gpa:
+            if i.get_gpa() == "N/A":
+                i.set_gpa(np.nan)
+        # Create a list of tuples from the student objects
+        gpa_list = [(s.get_id(), s.get_name(), s.get_dob(), s.get_gpa()) for s in tmp_gpa]
+
+        # Convert the list to a structured numpy array
+        gpa_arr = np.array(gpa_list, dtype=student_dtype)
+        # Sort the array by GPA
+        gpa_arr = np.sort(gpa_arr, order='__gpa')[::-1]
+        # Print the sorted array
+        for s in gpa_arr:
+            print(s)
+
+
+
     def main(self):
         while True:
             print("\n1. Add student")
@@ -353,9 +413,11 @@ class StudentManagement:
             print("8. Output course")
             print("9. Output mark")
             print("10. GPA calculator")
-            print("11. Load data")
-            print("12. Export data")
-            print("13. Exit")
+            print("11. GPA ranking (Low to High)")
+            print("12. GPA ranking (High to Low)")
+            print("13. Load data")
+            print("14. Export data")
+            print("15. Exit")
 
             input_option = int(input("Enter option: "))
 
@@ -390,15 +452,24 @@ class StudentManagement:
                 subprocess.call('clear', shell=True)
                 self.gpa_calculator()
                 print("GPA calculator successfully!")
+
             elif input_option == 11:
+                subprocess.call('clear', shell=True)
+                self.gpa_ranking_Low2High()
+                print("GPA ranking (Low to High) successfully!")
+            elif input_option == 12:
+                subprocess.call('clear', shell=True)
+                self.gpa_ranking_High2Low()
+                print("GPA ranking (High to Low) successfully!")
+            elif input_option == 13:
                 subprocess.call('clear', shell=True)
                 self.load_data()
                 print("Load data successfully!")
-            elif input_option == 12:
+            elif input_option == 14:
                 subprocess.call('clear', shell=True)
                 self.export_data()
                 print("Export data successfully!")
-            elif input_option == 13:
+            elif input_option == 15:
                 break
             else:
                 print("Invalid option!")

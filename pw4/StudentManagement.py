@@ -2,6 +2,7 @@ from input import Input
 from output import Output
 import subprocess
 import math
+import numpy as np
 
 
 class StudentManagement:
@@ -50,6 +51,59 @@ class StudentManagement:
                 gpa = math.floor(gpa * 10) / 10
             student.set_gpa(gpa)
 
+    def gpa_ranking_Low2High(self):
+        student_dtype = np.dtype([
+            ('id', np.str_, 16),
+            ('name', np.str_, 16),
+            ('dob', np.str_, 10),
+            ('__gpa', np.float32)
+        ])
+
+        tmp_gpa = []
+        for student in self.student_list:
+            tmp_gpa.append(student)
+
+        for i in tmp_gpa:
+            if i.get_gpa() == "N/A":
+                i.set_gpa(np.nan)
+        # Create a list of tuples from the student objects
+        gpa_list = [(s.get_id(), s.get_name(), s.get_dob(), s.get_gpa()) for s in tmp_gpa]
+
+
+        # Convert the list to a structured numpy array
+        gpa_arr = np.array(gpa_list, dtype=student_dtype)
+        # Sort the array by GPA
+        gpa_arr = np.sort(gpa_arr, order='__gpa')
+        # Print the sorted array
+        for s in gpa_arr:
+            print(s)
+    def gpa_ranking_High2Low(self):
+        #sort by numpy
+        student_dtype = np.dtype([
+            ('id', np.str_, 16),
+            ('name', np.str_, 16),
+            ('dob', np.str_, 10),
+            ('__gpa', np.float32)
+        ])
+
+        tmp_gpa = []
+        for student in self.student_list:
+            tmp_gpa.append(student)
+
+        for i in tmp_gpa:
+            if i.get_gpa() == "N/A":
+                i.set_gpa(np.nan)
+        # Create a list of tuples from the student objects
+        gpa_list = [(s.get_id(), s.get_name(), s.get_dob(), s.get_gpa()) for s in tmp_gpa]
+
+        # Convert the list to a structured numpy array
+        gpa_arr = np.array(gpa_list, dtype=student_dtype)
+        # Sort the array by GPA
+        gpa_arr = np.sort(gpa_arr, order='__gpa')[::-1]
+        # Print the sorted array
+        for s in gpa_arr:
+            print(s)
+
     def main(self):
         while True:
             print("\n1. Add student")
@@ -62,9 +116,11 @@ class StudentManagement:
             print("8. Output course")
             print("9. Output mark")
             print("10. GPA calculator")
-            print("11. Load data")
-            print("12. Export data")
-            print("13. Exit")
+            print("11. GPA ranking (Low to High)")
+            print("12. GPA ranking (High to Low)")
+            print("13. Load data")
+            print("14. Export data")
+            print("15. Exit")
 
             input_option = int(input("Enter option: "))
             if input_option == 1:
@@ -113,13 +169,21 @@ class StudentManagement:
 
             elif input_option == 11:
                 subprocess.call('clear', shell=True)
-                self.input_funcs.load_data()
+                self.gpa_ranking_Low2High()
 
             elif input_option == 12:
                 subprocess.call('clear', shell=True)
-                self.output_funcs.export_data()
+                self.gpa_ranking_High2Low()
 
             elif input_option == 13:
+                subprocess.call('clear', shell=True)
+                self.input_funcs.load_data()
+
+            elif input_option == 14:
+                subprocess.call('clear', shell=True)
+                self.output_funcs.export_data()
+
+            elif input_option == 15:
                 break
             else:
                 print("Invalid option")

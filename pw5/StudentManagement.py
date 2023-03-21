@@ -2,6 +2,7 @@ from input import Input
 from output import Output
 import subprocess
 import math
+import numpy as np
 
 
 class StudentManagement:

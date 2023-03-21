@@ -47,6 +47,33 @@ class Output:
             scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
             scroll_list.insert(tk.END, " ")
 
+    def output_students_list_sorted(self, lst_sorted):
+        output_tk_window = tk.Toplevel()
+        output_tk_window.title("Student List")
+        output_tk_window.geometry("500x500")
+        output_tk_window.resizable(True, True)
+        output_tk_window.configure(bg="white")
+
+        #add a scroll list
+        scroll_list = tk.Listbox(output_tk_window, width=50, height=20)
+        scroll_list.grid(row=0, column=0, padx=10, pady=10)
+
+        #add a scrollbar
+        scrollbar = tk.Scrollbar(output_tk_window)
+        scrollbar.grid(row=0, column=1, sticky="ns")
+
+        #add scrollbar to scroll list
+        scroll_list.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=scroll_list.yview)
+
+        #add data to scroll list
+        for i in lst_sorted:
+            scroll_list.insert(tk.END, "ID: " + str(i.get_id()))
+            scroll_list.insert(tk.END, "Name: " + str(i.get_name()))
+            scroll_list.insert(tk.END, "DoB: " + str(i.get_dob()))
+            scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
+            scroll_list.insert(tk.END, " ")
+
 
     def output_courses_list(self):
         output_tk_window = tk.Toplevel()
@@ -215,9 +242,7 @@ class Output:
             print("exporting courses data")
             self.List2File(filename3, self.__mark_list)
             print("exporting marks data")
-    def daemon_thread(self):
-        self.thread_background = threading.Thread(target=self.export_data_daemon, daemon=True)
-        self.thread_background.start()
+
 
 
     def export_data_rename(self):
