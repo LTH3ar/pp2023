@@ -1,10 +1,10 @@
 import sys
-
 from input import Input
 from output import Output
 import math
 import curses
-
+import numpy as np
+from domains.student import Student
 
 class StudentManagement:
     #init
@@ -53,6 +53,72 @@ class StudentManagement:
                 gpa = math.floor(gpa * 10) / 10
             student.set_gpa(gpa)
 
+    def gpa_ranking_Low2High(self):
+        student_dtype = np.dtype([
+            ('id', np.str_, 16),
+            ('name', np.str_, 16),
+            ('dob', np.str_, 10),
+            ('__gpa', np.float32)
+        ])
+
+        tmp_gpa = []
+        for student in self.student_list:
+            tmp_gpa.append(student)
+
+        for i in tmp_gpa:
+            if i.get_gpa() == "N/A":
+                i.set_gpa(np.nan)
+        # Create a list of tuples from the student objects
+        gpa_list = [(s.get_id(), s.get_name(), s.get_dob(), s.get_gpa()) for s in tmp_gpa]
+
+        # Convert the list to a structured numpy array
+        gpa_arr = np.array(gpa_list, dtype=student_dtype)
+        # Sort the array by GPA
+        gpa_arr = np.sort(gpa_arr, order='__gpa')
+        # re convert to list of class Student
+        gpa_list = []
+        for s in gpa_arr:
+            student_id = s[0]
+            student_name = s[1]
+            student_dob = s[2]
+            student_gpa = s[3]
+            gpa_list.append(Student(student_id, student_name, student_dob, student_gpa))
+
+        self.output_funcs.output_students_list_sorted(gpa_list)
+
+    def gpa_ranking_High2Low(self):
+        student_dtype = np.dtype([
+            ('id', np.str_, 16),
+            ('name', np.str_, 16),
+            ('dob', np.str_, 10),
+            ('__gpa', np.float32)
+        ])
+
+        tmp_gpa = []
+        for student in self.student_list:
+            tmp_gpa.append(student)
+
+        for i in tmp_gpa:
+            if i.get_gpa() == "N/A":
+                i.set_gpa(np.nan)
+        # Create a list of tuples from the student objects
+        gpa_list = [(s.get_id(), s.get_name(), s.get_dob(), s.get_gpa()) for s in tmp_gpa]
+
+        # Convert the list to a structured numpy array
+        gpa_arr = np.array(gpa_list, dtype=student_dtype)
+        # Sort the array by GPA
+        gpa_arr = np.sort(gpa_arr, order='__gpa')[::-1]
+        # re convert to list of class Student
+        gpa_list = []
+        for s in gpa_arr:
+            student_id = s[0]
+            student_name = s[1]
+            student_dob = s[2]
+            student_gpa = s[3]
+            gpa_list.append(Student(student_id, student_name, student_dob, student_gpa))
+
+        self.output_funcs.output_students_list_sorted(gpa_list)
+
     def option_select(self, input_option):
 
         if input_option == 1:
@@ -75,12 +141,14 @@ class StudentManagement:
 
         elif input_option == 7:
             self.stdscr.clear()
+            self.stdscr.refresh()
             self.stdscr.addstr(0, 0, "Enter student id: ")
             input_student_id = str(self.stdscr.getstr(1, len("Enter student id: ") + 1, 20))
             self.output_funcs.output_student(input_student_id)
 
         elif input_option == 8:
             self.stdscr.clear()
+            self.stdscr.refresh()
             self.stdscr.addstr(0, 0, "Enter course id: ")
             input_course_id = str(self.stdscr.getstr(1, len("Enter course id: ") + 1, 20))
             self.output_funcs.output_course(input_course_id)
@@ -97,12 +165,18 @@ class StudentManagement:
             self.gpa_calculator()
 
         elif input_option == 11:
-            self.input_funcs.load_data()
+            self.gpa_ranking_Low2High()
 
         elif input_option == 12:
-            self.output_funcs.export_data()
+            self.gpa_ranking_High2Low()
 
         elif input_option == 13:
+            self.input_funcs.load_data()
+
+        elif input_option == 14:
+            self.output_funcs.export_data()
+
+        elif input_option == 15:
             sys.exit()
         else:
             print("Invalid option")

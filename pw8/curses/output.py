@@ -23,6 +23,7 @@ class Output:
 
     def output_students_list(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         for i in self.__student_list:
             self.stdscr.addstr(line_count, 0, "ID: " + str(i.get_id()))
@@ -34,8 +35,23 @@ class Output:
             self.stdscr.addstr(line_count, 0, "GPA: " + str(i.get_gpa()))
             line_count += 2
 
+    def output_students_list_sorted(self, lst_sorted):
+        self.stdscr.clear()
+        self.stdscr.refresh()
+        line_count = 0
+        for i in lst_sorted:
+            self.stdscr.addstr(line_count, 0, "ID: " + str(i.get_id()))
+            line_count += 1
+            self.stdscr.addstr(line_count, 0, "Name: " + str(i.get_name()))
+            line_count += 1
+            self.stdscr.addstr(line_count, 0, "DoB: " + str(i.get_dob()))
+            line_count += 1
+            self.stdscr.addstr(line_count, 0, "GPA: " + str(i.get_gpa()))
+            line_count += 2
+
     def output_courses_list(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         for i in self.__course_list:
             self.stdscr.addstr(line_count, 0, "Course_ID: " + str(i.get_id()))
@@ -51,6 +67,7 @@ class Output:
 
     def output_marks_list(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         for i in self.__mark_list:
             self.stdscr.addstr(line_count, 0, "Student ID: " + str(i.get_student_id()))
@@ -62,9 +79,9 @@ class Output:
             self.stdscr.addstr(line_count, 0, "Final: " + str(i.get_mark_final()))
             line_count += 2
 
-
     def output_student(self, student_id):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         for i in self.__student_list:
             if i.get_id() == student_id:
@@ -79,6 +96,7 @@ class Output:
 
     def output_course(self, course_id):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         for i in self.__course_list:
             if i.get_id() == course_id:
@@ -95,6 +113,7 @@ class Output:
 
     def output_mark(self, student_id, course_id):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         for i in self.__mark_list:
             if i.get_course_id() == course_id and i.get_student_id() == student_id:
@@ -112,12 +131,15 @@ class Output:
             pickle.dump(lst, file)
 
     def export_data(self):
+        self.stdscr.clear()
+        self.stdscr.refresh()
         filename1 = "students_data.dt"
         filename2 = "courses_data.dt"
         filename3 = "marks_data.dt"
         self.List2File(filename1, self.__student_list)
         self.List2File(filename2, self.__course_list)
         self.List2File(filename3, self.__mark_list)
+        self.stdscr.addstr(0, 0, "Exported successfully!")
 
     def export_data_daemon(self):
         while True:
@@ -131,12 +153,15 @@ class Output:
             self.List2File(filename3, self.__mark_list)
 
     def export_data_rename(self):
+        self.stdscr.clear()
+        self.stdscr.refresh()
         filename1 = "students_data_tmp.dt"
         filename2 = "courses_data_tmp.dt"
         filename3 = "marks_data_tmp.dt"
         os.rename(filename1, "students_data.dt")
         os.rename(filename2, "courses_data.dt")
         os.rename(filename3, "marks_data.dt")
+        self.stdscr.addstr(0, 0, "Exported successfully!")
 
 
     def __del__(self):

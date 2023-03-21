@@ -8,6 +8,7 @@ class Menu:
 
     def menu(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         self.stdscr.addstr(line_count, 0, "1. Add student")
         line_count += 1
@@ -29,11 +30,15 @@ class Menu:
         line_count += 1
         self.stdscr.addstr(line_count, 0, "10. GPA calculator")
         line_count += 1
-        self.stdscr.addstr(line_count, 0, "11. Load data")
+        self.stdscr.addstr(line_count, 0, "11. GPA ranking (Low to High)")
         line_count += 1
-        self.stdscr.addstr(line_count, 0, "12. Export data")
+        self.stdscr.addstr(line_count, 0, "12. GPA ranking (High to Low)")
         line_count += 1
-        self.stdscr.addstr(line_count, 0, "13. Exit")
+        self.stdscr.addstr(line_count, 0, "13. Load data")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "14. Export data")
+        line_count += 1
+        self.stdscr.addstr(line_count, 0, "15. Exit")
         line_count += 1
         lbl_choice = str("Enter your choice: ")
         self.stdscr.addstr(line_count, 0, lbl_choice)

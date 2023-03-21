@@ -22,6 +22,7 @@ class Input:
     # methods
     def input_student(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
 
         lbl_student_id = str("Enter student id: ")
@@ -46,6 +47,7 @@ class Input:
 
     def input_course(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
 
         lbl_course_id = str("Enter course id: ")
@@ -79,6 +81,7 @@ class Input:
 
     def input_mark(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         lbl_student_id = str("Enter student id: ")
         self.stdscr.addstr(line_count, 0, lbl_student_id)
@@ -113,6 +116,7 @@ class Input:
 
     def add_student(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         lbl_no_student = str("Enter number of students: ")
         self.stdscr.addstr(line_count, 0, lbl_no_student)
@@ -123,6 +127,7 @@ class Input:
 
     def add_course(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         lbl_no_course = str("Enter number of courses: ")
         self.stdscr.addstr(line_count, 0, lbl_no_course)
@@ -133,6 +138,7 @@ class Input:
 
     def add_mark(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         line_count = 0
         lbl_no_mark = str("Enter number of marks: ")
         self.stdscr.addstr(line_count, 0, lbl_no_mark)
@@ -148,6 +154,7 @@ class Input:
 
     def load_data(self):
         self.stdscr.clear()
+        self.stdscr.refresh()
         filename1 = "students_data.dt"
         filename2 = "courses_data.dt"
         filename3 = "marks_data.dt"
