@@ -89,6 +89,7 @@ class StudentManagement:
             #submits button
             btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_student(txt_input_student_id.get()))
             btn_submit.grid(row=2, column=0)
+            txt_input_student_id.delete(0, tk.END)
 
 
         elif input_option == 8:
@@ -105,6 +106,7 @@ class StudentManagement:
             #submits button
             btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_course(txt_input_course_id.get()))
             btn_submit.grid(row=2, column=0)
+            txt_input_course_id.delete(0, tk.END)
 
         elif input_option == 9:
             sm_window = tk.Toplevel()
@@ -125,6 +127,8 @@ class StudentManagement:
             #submits button
             btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_mark(txt_input_student_id.get(), txt_input_course_id.get()))
             btn_submit.grid(row=4, column=0)
+            txt_input_student_id.delete(0, tk.END)
+            txt_input_course_id.delete(0, tk.END)
 
         elif input_option == 10:
             self.gpa_calculator()
