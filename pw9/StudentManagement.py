@@ -14,8 +14,12 @@ class StudentManagement:
         self.student_list = []
         self.course_list = []
         self.mark_list = []
-        self.input_funcs = Input(self.student_list, self.course_list, self.mark_list)
-        self.output_funcs = Output(self.student_list, self.course_list, self.mark_list)
+        self.input_funcs = Input(self.student_list,
+                                 self.course_list,
+                                 self.mark_list)
+        self.output_funcs = Output(self.student_list,
+                                   self.course_list,
+                                   self.mark_list)
         self.output_funcs.daemon_thread()
 
     def gpa_calculator(self):
@@ -28,12 +32,15 @@ class StudentManagement:
             credits_sum = 0
             for course in self.course_list:
                 for mark in self.mark_list:
-                    if course.get_id() == mark.get_course_id() and mark.get_student_id() == student.get_id():
-                        mark_mid = (float(mark.get_mark_mid()) / max_point) * ((float(course.get_mark_mid_portion()) / 100) * max_point)
+                    if (course.get_id() == mark.get_course_id()
+                            and mark.get_student_id() == student.get_id()):
+                        mark_mid = ((float(mark.get_mark_mid()) / max_point)
+                                    * ((float(course.get_mark_mid_portion()) / 100) * max_point))
                         # floor mark_mid to 1 decimal places
                         mark_mid = math.floor(mark_mid * 10) / 10
 
-                        mark_final = (float(mark.get_mark_final()) / max_point) * ((float(course.get_mark_final_portion()) / 100) * max_point)
+                        mark_final = ((float(mark.get_mark_final()) / max_point)
+                                      * ((float(course.get_mark_final_portion()) / 100) * max_point))
                         # floor mark_final to 1 decimal places
                         mark_final = math.floor(mark_final * 10) / 10
 
@@ -76,7 +83,6 @@ class StudentManagement:
 
         elif input_option == 7:
             sm_window = tk.Toplevel()
-            #rewrite the above code to use tkinter
             sm_window.title("Student search")
             sm_window.geometry("500x500")
             sm_window.configure(bg="white")
@@ -85,9 +91,13 @@ class StudentManagement:
             lbl_input_student_id.grid(row=0, column=0)
             txt_input_student_id = tk.Entry(sm_window, width=20)
             txt_input_student_id.grid(row=1, column=0)
-            #input_student_id = txt_input_student_id.get()
             #submits button
-            btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_student(txt_input_student_id.get()))
+            btn_submit = tk.Button(sm_window,
+                                   text="Submit",
+                                   command=lambda: self.output_funcs.output_student(
+                                       txt_input_student_id.get()
+                                       )
+                                   )
             btn_submit.grid(row=2, column=0)
             txt_input_student_id.delete(0, tk.END)
 
@@ -97,14 +107,18 @@ class StudentManagement:
             sm_window.title("Course search")
             sm_window.geometry("500x500")
             sm_window.configure(bg="white")
-            sm_window.resizable(False, False)
+            sm_window.resizable(True, True)
             lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
             lbl_input_course_id.grid(row=0, column=0)
             txt_input_course_id = tk.Entry(sm_window, width=20)
             txt_input_course_id.grid(row=1, column=0)
-            #input_course_id = txt_input_course_id.get()
             #submits button
-            btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_course(txt_input_course_id.get()))
+            btn_submit = tk.Button(sm_window,
+                                   text="Submit",
+                                   command=lambda: self.output_funcs.output_course(
+                                       txt_input_course_id.get()
+                                       )
+                                   )
             btn_submit.grid(row=2, column=0)
             txt_input_course_id.delete(0, tk.END)
 
@@ -113,19 +127,24 @@ class StudentManagement:
             sm_window.title("Mark search")
             sm_window.geometry("500x500")
             sm_window.configure(bg="white")
-            sm_window.resizable(False, False)
+            sm_window.resizable(True, True)
             lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
             lbl_input_student_id.grid(row=0, column=0)
             txt_input_student_id = tk.Entry(sm_window, width=20)
             txt_input_student_id.grid(row=1, column=0)
-            #input_student_id = txt_input_student_id.get()
+
             lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
             lbl_input_course_id.grid(row=2, column=0)
             txt_input_course_id = tk.Entry(sm_window, width=20)
             txt_input_course_id.grid(row=3, column=0)
-            #input_course_id = txt_input_course_id.get()
             #submits button
-            btn_submit = tk.Button(sm_window, text="Submit", command=lambda: self.output_funcs.output_mark(txt_input_student_id.get(), txt_input_course_id.get()))
+            btn_submit = tk.Button(sm_window,
+                                   text="Submit",
+                                   command=lambda: self.output_funcs.output_mark(
+                                       txt_input_student_id.get(),
+                                       txt_input_course_id.get()
+                                       )
+                                   )
             btn_submit.grid(row=4, column=0)
             txt_input_student_id.delete(0, tk.END)
             txt_input_course_id.delete(0, tk.END)
