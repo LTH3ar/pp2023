@@ -1,9 +1,6 @@
 import math
 import json
 import subprocess
-from subprocess import *
-import numpy as np
-import curses
 
 class Student:
     #init
