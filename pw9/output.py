@@ -21,6 +21,7 @@ class Output:
     def get_mark_list(self):
         return self.__mark_list
 
+    # ==================================================================================================
     def output_students_list(self):
         output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Student List")
@@ -41,6 +42,8 @@ class Output:
         scrollbar.config(command=scroll_list.yview)
 
         #add data to scroll list
+        #clear scroll list
+        scroll_list.delete(0, tk.END)
         for i in self.__student_list:
             scroll_list.insert(tk.END, "ID: " + str(i.get_id()))
             scroll_list.insert(tk.END, "Name: " + str(i.get_name()))
@@ -48,6 +51,9 @@ class Output:
             scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
             scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
+
+    # ==================================================================================================
     def output_students_list_sorted(self, lst_sorted):
         output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Student List")
@@ -75,7 +81,9 @@ class Output:
             scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
             scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
 
+    # ==================================================================================================
     def output_courses_list(self):
         output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Course List")
@@ -104,7 +112,9 @@ class Output:
             scroll_list.insert(tk.END, "Final_%: " + str(i.get_mark_final_portion()))
             scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
 
+    # ==================================================================================================
     def output_marks_list(self):
         output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Mark List")
@@ -132,6 +142,9 @@ class Output:
             scroll_list.insert(tk.END, "Final: " + str(i.get_mark_final()))
             scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
+
+    # ==================================================================================================
     def output_student(self, student_id):
         output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Student")
@@ -160,6 +173,9 @@ class Output:
                 scroll_list.insert(tk.END, "GPA: " + str(i.get_gpa()))
                 scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
+
+    # ==================================================================================================
     def output_course(self, course_id):
         output_tk_window = tk.Toplevel(self.menu_window)
         output_tk_window.title("Course")
@@ -189,7 +205,9 @@ class Output:
                 scroll_list.insert(tk.END, "Final_%: " + str(i.get_mark_final_portion()))
                 scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
 
+    # ==================================================================================================
     def output_mark(self, student_id, course_id):
         output_tk_window = tk.Toplevel()
         output_tk_window.title("Mark")
@@ -218,7 +236,9 @@ class Output:
                 scroll_list.insert(tk.END, "Final: " + str(i.get_mark_final()))
                 scroll_list.insert(tk.END, " ")
 
+        output_tk_window.protocol("WM_DELETE_WINDOW", output_tk_window.destroy)
 
+    # ==================================================================================================
     def List2File(self, filename, lst):
         with open(filename, "wb") as file:
             pickle.dump(lst, file)
@@ -230,6 +250,7 @@ class Output:
         self.List2File(filename1, self.__student_list)
         self.List2File(filename2, self.__course_list)
         self.List2File(filename3, self.__mark_list)
+        print("exporting data")
 
     def export_data_daemon(self):
         while True:
@@ -253,3 +274,5 @@ class Output:
         os.rename(filename1, "students_data.dt")
         os.rename(filename2, "courses_data.dt")
         os.rename(filename3, "marks_data.dt")
+        print("exporting data")
+#==================================================================================================

@@ -1,4 +1,5 @@
 from StudentManagement import StudentManagement
+import os
 import tkinter as tk
 
 class Menu:
@@ -7,6 +8,16 @@ class Menu:
         self.student_management = StudentManagement(self.menu_window)
         self.frame = tk.Frame(self.menu_window)
         self.frame.pack()
+        self.menu_window.protocol("WM_DELETE_WINDOW", self.student_management.option_select(15))
+
+    def destroy_protocol(self):
+        if os.path.exists("students_data_tmp.dt"):
+            os.remove("students_data_tmp.dt")
+        if os.path.exists("courses_data_tmp.dt"):
+            os.remove("courses_data_tmp.dt")
+        if os.path.exists("marks_data_tmp.dt"):
+            os.remove("marks_data_tmp.dt")
+        self.menu_window.destroy()
 
     def menu(self):
         self.menu_window.title("Menu")
@@ -88,7 +99,9 @@ class Menu:
                                                text="15. Exit",
                                                command=lambda: self.student_management.option_select(15))
         self.menu_window.button_15.pack()
-        self.menu_window.mainloop()
+
 
     def main(self):
         self.menu()
+        self.menu_window.protocol("WM_DELETE_WINDOW", self.destroy_protocol)
+        self.menu_window.mainloop()

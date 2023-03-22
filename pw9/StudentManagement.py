@@ -137,25 +137,25 @@ class StudentManagement:
 
     def option_select(self, input_option):
 
-        if input_option == 1:
+        if input_option == 0:
             self.input_funcs.input_student()
 
-        elif input_option == 2:
+        elif input_option == 1:
             self.input_funcs.input_course()
 
-        elif input_option == 3:
+        elif input_option == 2:
             self.input_funcs.input_mark()
 
-        elif input_option == 4:
+        elif input_option == 3:
             self.output_funcs.output_students_list()
 
-        elif input_option == 5:
+        elif input_option == 4:
             self.output_funcs.output_courses_list()
 
-        elif input_option == 6:
+        elif input_option == 5:
             self.output_funcs.output_marks_list()
 
-        elif input_option == 7:
+        elif input_option == 6:
             sm_window = tk.Toplevel(self.menu_window)
             sm_window.title("Student search")
             sm_window.geometry("500x500")
@@ -173,10 +173,11 @@ class StudentManagement:
                                        )
                                    )
             btn_submit.grid(row=2, column=0)
+            sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
             txt_input_student_id.delete(0, tk.END)
 
 
-        elif input_option == 8:
+        elif input_option == 7:
             sm_window = tk.Toplevel(self.menu_window)
             sm_window.title("Course search")
             sm_window.geometry("500x500")
@@ -194,9 +195,10 @@ class StudentManagement:
                                        )
                                    )
             btn_submit.grid(row=2, column=0)
+            sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
             txt_input_course_id.delete(0, tk.END)
 
-        elif input_option == 9:
+        elif input_option == 8:
             sm_window = tk.Toplevel(self.menu_window)
             sm_window.title("Mark search")
             sm_window.geometry("500x500")
@@ -220,23 +222,27 @@ class StudentManagement:
                                        )
                                    )
             btn_submit.grid(row=4, column=0)
+            sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
             txt_input_student_id.delete(0, tk.END)
             txt_input_course_id.delete(0, tk.END)
 
-        elif input_option == 10:
+        elif input_option == 9:
             self.gpa_calculator()
 
-        elif input_option == 11:
+        elif input_option == 10:
             self.gpa_ranking_High2Low()
 
-        elif input_option == 12:
+        elif input_option == 11:
             self.gpa_ranking_Low2High()
 
-        elif input_option == 13:
+        elif input_option == 12:
             self.input_funcs.load_data()
 
-        elif input_option == 14:
+        elif input_option == 13:
             self.output_funcs.export_data_rename()
+
+        elif input_option == 14:
+            self.output_funcs.export_data()
 
         elif input_option == 15:
             if os.path.exists("students_data_tmp.dt"):
@@ -245,7 +251,7 @@ class StudentManagement:
                 os.remove("courses_data_tmp.dt")
             if os.path.exists("marks_data_tmp.dt"):
                 os.remove("marks_data_tmp.dt")
-            sys.exit()
-
+            #sys.exit()
+            self.menu_window.destroy()
         else:
             print("Invalid option")
