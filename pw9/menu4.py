@@ -14,14 +14,15 @@ class Menu:
         "5. Output marks list",
         "6. Output student",
         "7. Output course",
-        "8. Output mark",
-        "9. GPA calculator",
-        "10. GPA ranking(descending)",
-        "11. GPA ranking(ascending)",
-        "12. Load data",
-        "13. Export data",
-        "14. Export data(direct)",
-        "15. Exit",
+        "8. Output mark single",
+        "9. Output mark all",
+        "10. GPA calculator",
+        "11. GPA ranking(descending)",
+        "12. GPA ranking(ascending)",
+        "13. Load data",
+        "14. Export data",
+        "15. Export data(direct)",
+        "16. Exit",
     ]
 
     def __init__(self) -> None:
@@ -48,7 +49,7 @@ class Menu:
 
     def menu(self):
         self.menu_window.title("Menu")
-        self.menu_window.geometry("1250x280")
+        self.menu_window.geometry("1250x300")
         self.menu_window.resizable(True, True)
 
         # divide buttons into four columns
@@ -60,12 +61,12 @@ class Menu:
                                    command=lambda i=i: self.student_management.option_select(i))
                 button.grid(row=i, column=0, padx=10, pady=5)
 
-            elif 3 <= i <= 8:
+            elif 3 <= i <= 9:
                 button = tk.Button(master=self.frame1, text=button_text,
                                    width=30, height=1,
                                    command=lambda i=i: self.student_management.option_select(i))
                 button.grid(row=i-3, column=0, padx=10, pady=5)
-            elif 9 <= i <= 11:
+            elif 10 <= i <= 12:
                 button = tk.Button(master=self.frame2, text=button_text,
                                    width=30, height=1,
                                    command=lambda i=i: self.student_management.option_select(i))

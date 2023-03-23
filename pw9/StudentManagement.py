@@ -141,123 +141,131 @@ class StudentManagement:
 
         self.output_funcs.output_students_list_sorted(tmp_gpa)
 
+    def search_student(self):
+        sm_window = tk.Toplevel(self.menu_window)
+        sm_window.title("Student search")
+        sm_window.geometry("500x500")
+        sm_window.configure(bg="white")
+        sm_window.resizable(True, True)
+        lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
+        lbl_input_student_id.grid(row=0, column=0)
+        txt_input_student_id = tk.Entry(sm_window, width=20)
+        txt_input_student_id.grid(row=1, column=0)
+        # submits button
+        btn_submit = tk.Button(sm_window,
+                               text="Submit",
+                               command=lambda: self.output_funcs.output_student(
+                                   txt_input_student_id.get()
+                               )
+                               )
+        btn_submit.grid(row=2, column=0)
+        sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
+        txt_input_student_id.delete(0, tk.END)
+
+    def search_course(self):
+        sm_window = tk.Toplevel(self.menu_window)
+        sm_window.title("Course search")
+        sm_window.geometry("500x500")
+        sm_window.configure(bg="white")
+        sm_window.resizable(True, True)
+        lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
+        lbl_input_course_id.grid(row=0, column=0)
+        txt_input_course_id = tk.Entry(sm_window, width=20)
+        txt_input_course_id.grid(row=1, column=0)
+        # submits button
+        btn_submit = tk.Button(sm_window,
+                               text="Submit",
+                               command=lambda: self.output_funcs.output_course(
+                                   txt_input_course_id.get()
+                               )
+                               )
+        btn_submit.grid(row=2, column=0)
+        sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
+        txt_input_course_id.delete(0, tk.END)
+
+    def search_mark_single(self):
+        sm_window = tk.Toplevel(self.menu_window)
+        sm_window.title("Mark search")
+        sm_window.geometry("500x500")
+        sm_window.configure(bg="white")
+        sm_window.resizable(True, True)
+        lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
+        lbl_input_student_id.grid(row=0, column=0)
+        txt_input_student_id = tk.Entry(sm_window, width=20)
+        txt_input_student_id.grid(row=1, column=0)
+
+        lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
+        lbl_input_course_id.grid(row=2, column=0)
+        txt_input_course_id = tk.Entry(sm_window, width=20)
+        txt_input_course_id.grid(row=3, column=0)
+        # submits button
+        btn_submit = tk.Button(sm_window,
+                               text="Submit",
+                               command=lambda: self.output_funcs.output_mark(
+                                   txt_input_student_id.get(),
+                                   txt_input_course_id.get()
+                               )
+                               )
+        btn_submit.grid(row=4, column=0)
+        sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
+        txt_input_student_id.delete(0, tk.END)
+        txt_input_course_id.delete(0, tk.END)
+
+    def search_mark_all(self):
+        sm_window = tk.Toplevel(self.menu_window)
+        sm_window.title("Mark search(full)")
+        sm_window.geometry("500x500")
+        sm_window.configure(bg="white")
+        sm_window.resizable(True, True)
+        lbl_input_id = tk.Label(sm_window, text="Enter course/student id: ")
+        lbl_input_id.grid(row=0, column=0)
+        txt_input_id = tk.Entry(sm_window, width=20)
+        txt_input_id.grid(row=1, column=0)
+        # submits button
+        btn_submit = tk.Button(sm_window,
+                               text="Submit",
+                               command=lambda: self.output_funcs.output_mark_multiple(
+                                   txt_input_id.get()
+                               )
+                               )
+        btn_submit.grid(row=2, column=0)
+        sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
+        txt_input_id.delete(0, tk.END)
+
+    def exit_func(self):
+        if os.path.exists("students_data_tmp.dt"):
+            os.remove("students_data_tmp.dt")
+        if os.path.exists("courses_data_tmp.dt"):
+            os.remove("courses_data_tmp.dt")
+        if os.path.exists("marks_data_tmp.dt"):
+            os.remove("marks_data_tmp.dt")
+        # sys.exit()
+        self.menu_window.destroy()
+
+
     def option_select(self, input_option):
+        #rewrite the option list to tuple
+        options = [
+            self.input_funcs.input_student,
+            self.input_funcs.input_course,
+            self.input_funcs.input_mark,
+            self.output_funcs.output_students_list,
+            self.output_funcs.output_courses_list,
+            self.output_funcs.output_marks_list,
+            self.search_student,
+            self.search_course,
+            self.search_mark_single,
+            self.search_mark_all,
+            self.gpa_calculator,
+            self.gpa_ranking_High2Low,
+            self.gpa_ranking_Low2High,
+            self.input_funcs.load_data,
+            self.output_funcs.export_data_rename,
+            self.output_funcs.export_data,
+            self.exit_func
+        ]
 
-        if input_option == 0:
-            self.input_funcs.input_student()
-
-        elif input_option == 1:
-            self.input_funcs.input_course()
-
-        elif input_option == 2:
-            self.input_funcs.input_mark()
-
-        elif input_option == 3:
-            self.output_funcs.output_students_list()
-
-        elif input_option == 4:
-            self.output_funcs.output_courses_list()
-
-        elif input_option == 5:
-            self.output_funcs.output_marks_list()
-
-        elif input_option == 6:
-            sm_window = tk.Toplevel(self.menu_window)
-            sm_window.title("Student search")
-            sm_window.geometry("500x500")
-            sm_window.configure(bg="white")
-            sm_window.resizable(True, True)
-            lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
-            lbl_input_student_id.grid(row=0, column=0)
-            txt_input_student_id = tk.Entry(sm_window, width=20)
-            txt_input_student_id.grid(row=1, column=0)
-            #submits button
-            btn_submit = tk.Button(sm_window,
-                                   text="Submit",
-                                   command=lambda: self.output_funcs.output_student(
-                                       txt_input_student_id.get()
-                                       )
-                                   )
-            btn_submit.grid(row=2, column=0)
-            sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
-            txt_input_student_id.delete(0, tk.END)
-
-
-        elif input_option == 7:
-            sm_window = tk.Toplevel(self.menu_window)
-            sm_window.title("Course search")
-            sm_window.geometry("500x500")
-            sm_window.configure(bg="white")
-            sm_window.resizable(True, True)
-            lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
-            lbl_input_course_id.grid(row=0, column=0)
-            txt_input_course_id = tk.Entry(sm_window, width=20)
-            txt_input_course_id.grid(row=1, column=0)
-            #submits button
-            btn_submit = tk.Button(sm_window,
-                                   text="Submit",
-                                   command=lambda: self.output_funcs.output_course(
-                                       txt_input_course_id.get()
-                                       )
-                                   )
-            btn_submit.grid(row=2, column=0)
-            sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
-            txt_input_course_id.delete(0, tk.END)
-
-        elif input_option == 8:
-            sm_window = tk.Toplevel(self.menu_window)
-            sm_window.title("Mark search")
-            sm_window.geometry("500x500")
-            sm_window.configure(bg="white")
-            sm_window.resizable(True, True)
-            lbl_input_student_id = tk.Label(sm_window, text="Enter student id: ")
-            lbl_input_student_id.grid(row=0, column=0)
-            txt_input_student_id = tk.Entry(sm_window, width=20)
-            txt_input_student_id.grid(row=1, column=0)
-
-            lbl_input_course_id = tk.Label(sm_window, text="Enter course id: ")
-            lbl_input_course_id.grid(row=2, column=0)
-            txt_input_course_id = tk.Entry(sm_window, width=20)
-            txt_input_course_id.grid(row=3, column=0)
-            #submits button
-            btn_submit = tk.Button(sm_window,
-                                   text="Submit",
-                                   command=lambda: self.output_funcs.output_mark(
-                                       txt_input_student_id.get(),
-                                       txt_input_course_id.get()
-                                       )
-                                   )
-            btn_submit.grid(row=4, column=0)
-            sm_window.protocol("WM_DELETE_WINDOW", sm_window.destroy)
-            txt_input_student_id.delete(0, tk.END)
-            txt_input_course_id.delete(0, tk.END)
-
-        elif input_option == 9:
-            self.gpa_calculator()
-
-        elif input_option == 10:
-            self.gpa_ranking_High2Low()
-
-        elif input_option == 11:
-            self.gpa_ranking_Low2High()
-
-        elif input_option == 12:
-            self.input_funcs.load_data()
-
-        elif input_option == 13:
-            self.output_funcs.export_data_rename()
-
-        elif input_option == 14:
-            self.output_funcs.export_data()
-
-        elif input_option == 15:
-            if os.path.exists("students_data_tmp.dt"):
-                os.remove("students_data_tmp.dt")
-            if os.path.exists("courses_data_tmp.dt"):
-                os.remove("courses_data_tmp.dt")
-            if os.path.exists("marks_data_tmp.dt"):
-                os.remove("marks_data_tmp.dt")
-            #sys.exit()
-            self.menu_window.destroy()
-        else:
-            print("Invalid option")
+        for i, option in enumerate(options):
+            if i == input_option:
+                option()
+                break
