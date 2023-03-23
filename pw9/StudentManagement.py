@@ -24,9 +24,9 @@ class StudentManagement:
                                    self.__course_list,
                                    self.__mark_list,
                                    self.menu_window)
-        self.background_thread()
+        self.background_thread_run()
 
-    def background_thread(self):
+    def background_thread_run(self):
         self.thread_background = threading.Thread(target=self.output_funcs.export_data_daemon, daemon=True)
         self.thread_background.start()
 
