@@ -24,6 +24,10 @@ class Output:
         return self.__mark_list
 
     # ==================================================================================================
+    '''input: list of objects
+       if-statement: check the type of object in the list
+       output: print the list of objects corresponding to the type of object
+       '''
     def output_list(self, lst):
         if isinstance(lst[0], Student):
             for i in lst:
@@ -52,20 +56,32 @@ class Output:
             raise Exception("Invalid list")
         input("Press any key to exit")
 
+    # ==================================================================================================
+    '''input: list of student objects'''
     def output_students_list(self):
         self.output_list(self.__student_list)
 
+    # ==================================================================================================
+    '''input: list of student objects'''
     def output_students_list_sorted(self, lst_sorted):
         self.output_list(lst_sorted)
 
+    # ==================================================================================================
+    '''input: list of student objects'''
     def output_courses_list(self):
         self.output_list(self.__course_list)
 
+    # ==================================================================================================
+    '''input: list of student objects'''
     def output_marks_list(self):
         self.output_list(self.__mark_list)
 
     # ==================================================================================================
-
+    '''input: list of student or course or mark objects, id
+        if-statement: check the type of object in the list
+        loop through the list to find the object with the same id
+        output: print the list of objects corresponding to the type of object
+    '''
     def search_list(self, lst, id):
         subprocess.call("clear")
         if isinstance(lst[0], Student):
@@ -100,15 +116,25 @@ class Output:
             raise Exception("Invalid list")
         input("Press any key to exit")
 
+    # ==================================================================================================
+    '''input: list of student object and student id from the user'''
     def output_student(self, student_id):
         self.search_list(self.__student_list, student_id)
 
+    # ==================================================================================================
+    '''input: list of course object and course id from the user'''
     def output_course(self, course_id):
         self.search_list(self.__course_list, course_id)
 
+    # ==================================================================================================
+    '''input: list of mark object and student id from the user'''
     def output_mark_multiple(self, id):
         self.search_list(self.__mark_list, id)
 
+    # ==================================================================================================
+    '''input: list of mark object and student id, course id from the user
+       loop through the list to find the object with the same student id and course id
+       output: print the list of objects corresponding to the id'''
     def output_mark(self, student_id, course_id):
         subprocess.call("clear")
         for i in self.__mark_list:

@@ -23,7 +23,7 @@ class Input:
         self.__mark_list = mark_list
 
     # methods
-#=========================================================================================
+    #=========================================================================================
     # 1. Input student(add, remove, update)
     '''
     input student id, name, dob, gpa, action(add, remove, update)
@@ -84,6 +84,7 @@ class Input:
 
         input_window.protocol("WM_DELETE_WINDOW", input_window.destroy)
 
+    # submit student info
     def submit_student(self,
                        txt_student_id,
                        txt_student_name,
@@ -132,8 +133,7 @@ class Input:
         txt_student_name.delete(0, tk.END)
         txt_student_dob.delete(0, tk.END)
 
-#==================================================================================================
-
+    #==================================================================================================
     # 2. Input course(add, remove, update)
     '''input course id, name, credit, action(add, remove, update)
     if action is add, then add course
@@ -203,6 +203,7 @@ class Input:
         btn_submit.place(x=10, y=330)
         input_window.protocol("WM_DELETE_WINDOW", input_window.destroy)
 
+    #submit course info
     def submit_course(self,
                       txt_course_id,
                       txt_course_name,
@@ -257,8 +258,7 @@ class Input:
         txt_course_mark_mid_portion.delete(0, tk.END)
         txt_course_mark_final_portion.delete(0, tk.END)
 
-#==================================================================================================
-
+    #==================================================================================================
     # 3. Input mark(add, remove, update)
     '''input student id, course id, mark, action(add, remove, update)
     if action is add, then add mark
@@ -321,6 +321,7 @@ class Input:
         btn_submit.place(x=10, y=280)
         input_window.protocol("WM_DELETE_WINDOW", input_window.destroy)
 
+    #submit mark info
     def submit_mark(self,
                     txt_student_id,
                     txt_course_id,
@@ -366,14 +367,14 @@ class Input:
         txt_course_id.delete(0, tk.END)
         txt_mark_mid.delete(0, tk.END)
         txt_mark_final.delete(0, tk.END)
-#==================================================================================================
-
-    # 4. Save data
+    #==================================================================================================
+    '''load data from file'''
     def File2List(self, filename):
         with open(filename, 'rb') as file:
             data = pickle.load(file)
         return data
 
+    #load data
     def load_data(self):
         input_window = tk.Toplevel(self.menu_window)
         input_window.title("Load data")
@@ -419,4 +420,4 @@ class Input:
                                bg="white")
         lbl_notify3.place(x=10, y=70)
         input_window.protocol("WM_DELETE_WINDOW", input_window.destroy)
-#==================================================================================================
+    #==================================================================================================

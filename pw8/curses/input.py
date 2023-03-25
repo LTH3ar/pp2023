@@ -20,6 +20,14 @@ class Input:
         self.__mark_list = mark_list
 
     # methods
+    # =========================================================================================
+    # 1. Input student(add, remove, update)
+    '''
+    input student id, name, dob, gpa, action(add, remove, update)
+    if action is add, then gpa is N/A
+    if action is remove, then remove student with id
+    if action is update, then update student with id
+    '''
     def input_student(self, action):
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -117,6 +125,13 @@ class Input:
         elif int(input_action) == 3:
             self.input_student("update")
 
+    # ==================================================================================================
+    # 2. Input course(add, remove, update)
+    '''input course id, name, credit, action(add, remove, update)
+    if action is add, then add course
+    if action is remove, then remove course with id
+    if action is update, then update course with id
+    '''
     def input_course(self, action):
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -237,9 +252,13 @@ class Input:
         elif int(input_action) == 3:
             self.input_course("update")
 
-
-
-
+    #==================================================================================================
+    # 3. Input mark(add, remove, update)
+    '''input student id, course id, mark, action(add, remove, update)
+    if action is add, then add mark
+    if action is remove, then remove mark with student id and course id
+    if action is update, then update mark with student id and course id
+    '''
     def input_mark(self, action):
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -342,12 +361,14 @@ class Input:
         elif int(input_action) == 3:
             self.input_mark("update")
 
-
+    # ==================================================================================================
+    '''load data from file'''
     def File2List(self, filename):
         with open(filename, 'rb') as file:
             data = pickle.load(file)
         return data
 
+    #load data from file
     def load_data(self):
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -388,3 +409,4 @@ class Input:
 
     def __del__(self):
         curses.endwin()
+    # ==================================================================================================
